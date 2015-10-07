@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
   s.name         = "IMSCircleProgress"
   s.version      = "0.0.1"
-  s.platform     = :ios, "7" 
+  s.platform     = :ios, "8" 
   s.summary      = "A short description of IMSCircleProgress."
 
   s.homepage     = "https://github.com/InMotionSoft/IMSCircleProgresss"
