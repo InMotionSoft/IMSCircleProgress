@@ -1,0 +1,14 @@
+//
+//  PrefixHeader.pch
+//  CircleProgress
+//
+//  Created by Denis Romashov on 23.09.15.
+//  Copyright © 2015 InMotion Soft. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+
+
+#endif
