@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class DRCircleDoubleDragProgressView: DRCircleDragProgressView {
+class IMSCircleDoubleDragProgressView: IMSCircleDragProgressView {
     
     var rangeButton: UIButton!
     
@@ -25,7 +25,7 @@ class DRCircleDoubleDragProgressView: DRCircleDragProgressView {
         let baseAngle = angleBetweenCenterAndPoint(rangeButton.center)
         let baseProgress = (baseAngle >= 0 && baseAngle <= kMaxAngle) ? baseAngle/kFullCircleAngle : (kFullCircleAngle + baseAngle)/kFullCircleAngle
 
-        startAngle = DRCircleProgressPosition.Top.rawValue + baseAngle
+        startAngle = IMSCircleProgressPosition.Top.rawValue + baseAngle
         endAngle = kFullCircleAngle + startAngle
         
         let progressButtonAngle = angleBetweenCenterAndPoint(progressButton.center)

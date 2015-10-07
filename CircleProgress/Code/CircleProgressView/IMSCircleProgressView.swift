@@ -20,7 +20,7 @@ extension CABasicAnimation {
 }
 
 
-enum DRCircleProgressPosition: Float {
+enum IMSCircleProgressPosition: Float {
     case Top = -90.0
     case Right = 0.0
     case Left = 180.0
@@ -28,7 +28,7 @@ enum DRCircleProgressPosition: Float {
 }
 
 
-class DRCircleProgressView: UIView {
+class IMSCircleProgressView: UIView {
 
     let kDefaultInterval = 0.33
     let kMaxAngle: Float = 180.0;
@@ -51,7 +51,7 @@ class DRCircleProgressView: UIView {
     
 // MARK: Public Methods
     func initProgressViewWithRadius(radius: CGFloat, lineWidth width: CGFloat) {
-        self.startAngle = DRCircleProgressPosition.Top.rawValue
+        self.startAngle = IMSCircleProgressPosition.Top.rawValue
         self.endAngle = kFullCircleAngle + self.startAngle
         self.lineWidth = width
         self.radius = radius

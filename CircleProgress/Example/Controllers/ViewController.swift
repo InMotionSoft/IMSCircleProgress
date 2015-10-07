@@ -10,9 +10,9 @@ import UIKit
 
 class ViewController: UIViewController, UITextFieldDelegate {
 
-    @IBOutlet weak var testDragProgress: DRCircleDoubleDragProgressView!
-    @IBOutlet weak var dragProgress: DRCircleDragProgressView!
-    @IBOutlet weak var circleProgress: DRCircleProgressView!
+    @IBOutlet weak var testDragProgress: IMSCircleDoubleDragProgressView!
+    @IBOutlet weak var dragProgress: IMSCircleDragProgressView!
+    @IBOutlet weak var circleProgress: IMSCircleProgressView!
     
     @IBOutlet weak var radiusTextField: UITextField!
     @IBOutlet weak var prgressTextField: UITextField!

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class DRCircleDragProgressView: DRCircleProgressView {
+class IMSCircleDragProgressView: IMSCircleProgressView {
     
     var shouldBoundProgress = false
     
