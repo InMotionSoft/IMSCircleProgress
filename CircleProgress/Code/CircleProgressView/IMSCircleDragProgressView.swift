@@ -9,7 +9,8 @@
 import Foundation
 import UIKit
 
-@objc class IMSCircleDragProgressView: IMSCircleProgressView {
+
+@objc public class IMSCircleDragProgressView: IMSCircleProgressView {
     
     var shouldBoundProgress = false
     

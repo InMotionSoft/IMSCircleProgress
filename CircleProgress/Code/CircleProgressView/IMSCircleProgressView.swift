@@ -28,7 +28,7 @@ enum IMSCircleProgressPosition: Float {
 }
 
 
-@objc class IMSCircleProgressView: UIView {
+@objc public class IMSCircleProgressView: UIView {
 
     let kDefaultInterval = 0.33
     let kMaxAngle: Float = 180.0;
@@ -44,7 +44,7 @@ enum IMSCircleProgressPosition: Float {
     internal var startAngle: Float!
     internal var endAngle: Float!
     
-    override class func layerClass() -> AnyClass {
+    override public class func layerClass() -> AnyClass {
         return CAShapeLayer.self
     }
     
