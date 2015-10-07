@@ -15,13 +15,13 @@ import UIKit
     
     
 //    MARK: Overrides
-    override func initProgressViewWithRadius(radius: CGFloat, lineWidth width: CGFloat) {
+    override public func initProgressViewWithRadius(radius: CGFloat, lineWidth width: CGFloat) {
         setupRangeButton()
         super.initProgressViewWithRadius(radius, lineWidth: width)
         updateRangeButtonFrame()
     }
     
-    override func setProgress(progress: CGFloat) {
+    override public func setProgress(progress: CGFloat) {
         let baseAngle = angleBetweenCenterAndPoint(rangeButton.center)
         let baseProgress = (baseAngle >= 0 && baseAngle <= kMaxAngle) ? baseAngle/kFullCircleAngle : (kFullCircleAngle + baseAngle)/kFullCircleAngle
 

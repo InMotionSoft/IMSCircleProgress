@@ -21,7 +21,7 @@ import UIKit
     private let kProgressHalf: CGFloat = 0.5
     private let kProgressAccuracy: CGFloat = 0.1
     
-    override func initProgressViewWithRadius(radius: CGFloat, lineWidth width: CGFloat) {
+    override public func initProgressViewWithRadius(radius: CGFloat, lineWidth width: CGFloat) {
         super.initProgressViewWithRadius(radius, lineWidth: width)
                 
         setupProgressButton()
@@ -31,7 +31,7 @@ import UIKit
     
     
 //    MARK: Override
-    override func setProgress(progress: CGFloat) {
+    override  public func setProgress(progress: CGFloat) {
         currentProgress = progress
         let circlePath = setupPathWithRadius(radius)
         

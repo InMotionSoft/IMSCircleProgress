@@ -50,7 +50,7 @@ enum IMSCircleProgressPosition: Float {
     
     
 // MARK: Public Methods
-    func initProgressViewWithRadius(radius: CGFloat, lineWidth width: CGFloat) {
+    public func initProgressViewWithRadius(radius: CGFloat, lineWidth width: CGFloat) {
         self.startAngle = IMSCircleProgressPosition.Top.rawValue
         self.endAngle = kFullCircleAngle + self.startAngle
         self.lineWidth = width
@@ -58,13 +58,13 @@ enum IMSCircleProgressPosition: Float {
         self.setupCircleViewLineWidth(self.lineWidth, radius: radius)
     }
 
-    func initProgressView(withRadius radius: CGFloat, lineWidth width: CGFloat, startAngle angle: Float) {
+    public func initProgressView(withRadius radius: CGFloat, lineWidth width: CGFloat, startAngle angle: Float) {
         self.initProgressViewWithRadius(radius, lineWidth: width)
         self.startAngle = angle
         self.endAngle = kFullCircleAngle + angle
     }
     
-    func setProgress(progress: CGFloat) {
+    public func setProgress(progress: CGFloat) {
         currentProgress = progress
         
         let finalProgress = self.endlessProgress(progress)
