@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/InMotionSoft/IMSCircleProgresss"
   s.license      = "MIT"
 
-  s.author       = { "Denis Romashov" => "denisromashow@gmail.com" }
+  s.author       = { "InMotion Soft" => "hello@inmotionsoft.com" }
   s.source       = { :git => "https://github.com/InMotionSoft/IMSCircleProgress.git", :tag => "0.0.1" }
 
   s.source_files  = 'IMSCircleProgresss/Code/**/*.{swift}'
