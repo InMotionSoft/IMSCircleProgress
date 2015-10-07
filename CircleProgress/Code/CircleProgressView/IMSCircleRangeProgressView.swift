@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class IMSCircleDoubleDragProgressView: IMSCircleDragProgressView {
+@objc class IMSCircleDoubleDragProgressView: IMSCircleDragProgressView {
     
     var rangeButton: UIButton!
     

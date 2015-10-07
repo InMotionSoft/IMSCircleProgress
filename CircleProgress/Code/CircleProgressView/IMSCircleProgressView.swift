@@ -28,7 +28,7 @@ enum IMSCircleProgressPosition: Float {
 }
 
 
-class IMSCircleProgressView: UIView {
+@objc class IMSCircleProgressView: UIView {
 
     let kDefaultInterval = 0.33
     let kMaxAngle: Float = 180.0;
