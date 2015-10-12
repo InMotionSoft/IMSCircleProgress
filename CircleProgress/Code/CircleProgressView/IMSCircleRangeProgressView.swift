@@ -36,10 +36,10 @@ import UIKit
     }
     
     override func buttonDrag(button: UIButton, withEvent event:UIEvent) {
-        
-        let point = event.allTouches()?.first?.locationInView(self)
-        if let pointForUpdate = point {
-            let angle = angleBetweenCenterAndPoint(pointForUpdate)
+
+        if let touch: UITouch = event.allTouches()?.first {
+            let point = touch.locationInView(self)
+            let angle = angleBetweenCenterAndPoint(point)
             button.center = pointForAngle(angle)
         }
         

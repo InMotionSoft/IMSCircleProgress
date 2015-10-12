@@ -62,16 +62,18 @@ import UIKit
     
 //    MARK: Events
     func buttonDrag(button: UIButton, withEvent event:UIEvent) {
-        let point = event.allTouches()?.first?.locationInView(self)
-        let angle = angleBetweenCenterAndPoint(point!)
         
-        let progress = (angle >= 0 && angle <= kMaxAngle) ? angle/kFullCircleAngle : (kFullCircleAngle + angle)/kFullCircleAngle
-        
-        if shouldBoundProgress {
-            limitProgressIfNeeded(CGFloat(progress), forButton: button, withAngle: angle)
-        } else {
-            button.center = pointForAngle(angle)
-            self.setProgress(CGFloat(progress))
+        if let touch: UITouch = event.allTouches()?.first {
+            let point = touch.locationInView(self)
+            let angle = angleBetweenCenterAndPoint(point)
+            let progress = (angle >= 0 && angle <= kMaxAngle) ? angle/kFullCircleAngle : (kFullCircleAngle + angle)/kFullCircleAngle
+            
+            if shouldBoundProgress {
+                limitProgressIfNeeded(CGFloat(progress), forButton: button, withAngle: angle)
+            } else {
+                button.center = pointForAngle(angle)
+                self.setProgress(CGFloat(progress))
+            }
         }
     }
 
