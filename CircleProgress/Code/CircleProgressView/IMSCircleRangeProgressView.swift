@@ -11,14 +11,19 @@ import UIKit
 
 @objc public class IMSCircleDoubleDragProgressView: IMSCircleDragProgressView {
     
-    var rangeButton: UIButton!
+    public var rangeButton: UIButton!
     
     
 //    MARK: Overrides
-    override public func initProgressViewWithRadius(radius: CGFloat, lineWidth width: CGFloat) {
+    override init(frame: CGRect, radius: CGFloat, width: CGFloat, startAngle: Float) {
+        super.init(frame: frame, radius: radius, width: width, startAngle: startAngle)
+        
         setupRangeButton()
-        super.initProgressViewWithRadius(radius, lineWidth: width)
         updateRangeButtonFrame()
+    }    
+
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override public func setProgress(progress: CGFloat) {

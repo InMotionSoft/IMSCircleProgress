@@ -28,21 +28,21 @@ enum IMSCircleProgressPosition: Float {
 }
 
 
-@objc public class IMSCircleProgressView: UIView {
+public class IMSCircleProgressView: UIView {
 
     let kDefaultInterval = 0.33
     let kMaxAngle: Float = 180.0;
     let kFullCircleAngle: Float = 360.0;
     
-    var currentProgress: CGFloat = 0.0
-    var progressFillColor = UIColor.clearColor()
-    var progressStrokeColor = UIColor.darkGrayColor()
-    var progressTimeInterval : CGFloat = 10;
+    public var currentProgress: CGFloat = 0.0
+    public var progressFillColor = UIColor.clearColor()
+    public var progressStrokeColor = UIColor.darkGrayColor()
+    public var progressTimeInterval : CGFloat = 10;
     
-    internal var radius: CGFloat = 0.0
-    internal var lineWidth: CGFloat = 22.0
-    internal var startAngle: Float!
-    internal var endAngle: Float!
+    public var radius: CGFloat = 0.0
+    public var lineWidth: CGFloat = 22.0
+    public var startAngle: Float!
+    public var endAngle: Float!
     
     override public class func layerClass() -> AnyClass {
         return CAShapeLayer.self
@@ -50,19 +50,35 @@ enum IMSCircleProgressPosition: Float {
     
     
 // MARK: Public Methods
-    public func initProgressViewWithRadius(radius: CGFloat, lineWidth width: CGFloat) {
-        self.startAngle = IMSCircleProgressPosition.Top.rawValue
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override convenience init(frame: CGRect) {
+        self.init(frame: frame, radius: CGRectGetMidX(frame), width: 5)
+    }
+    
+    convenience init(frame:CGRect, radius:CGFloat, width: CGFloat) {
+        self.init(frame: frame, radius: radius, width: width, startAngle: IMSCircleProgressPosition.Top.rawValue)
+    }
+
+    init (frame:CGRect, radius:CGFloat, width: CGFloat, startAngle: Float) {
+        self.startAngle = startAngle
         self.endAngle = kFullCircleAngle + self.startAngle
         self.lineWidth = width
         self.radius = radius
+
+        super.init(frame: frame)
+        
         self.setupCircleViewLineWidth(self.lineWidth, radius: radius)
     }
-
-    public func initProgressView(withRadius radius: CGFloat, lineWidth width: CGFloat, startAngle angle: Float) {
-        self.initProgressViewWithRadius(radius, lineWidth: width)
-        self.startAngle = angle
-        self.endAngle = kFullCircleAngle + angle
-    }
+    
+//    public func initProgressView(withRadius radius: CGFloat, lineWidth width: CGFloat, startAngle angle: Float) {
+////        self.initProgressViewWithRadius(radius, lineWidth: width)
+//        
+//        self.startAngle = angle
+//        self.endAngle = kFullCircleAngle + angle
+//    }
     
     public func setProgress(progress: CGFloat) {
         currentProgress = progress

@@ -12,23 +12,26 @@ import UIKit
 
 @objc public class IMSCircleDragProgressView: IMSCircleProgressView {
     
-    var shouldBoundProgress = false
+    public var shouldBoundProgress = false
     
-    internal var progressButton: UIButton!
-    internal var progressButtonSize: CGFloat = 44.0
-    internal var strokeStart: CGFloat = 0.0
+    var progressButton: UIButton!
+    var progressButtonSize: CGFloat = 44.0
+    var strokeStart: CGFloat = 0.0
     
     private let kProgressHalf: CGFloat = 0.5
     private let kProgressAccuracy: CGFloat = 0.1
     
-    override public func initProgressViewWithRadius(radius: CGFloat, lineWidth width: CGFloat) {
-        super.initProgressViewWithRadius(radius, lineWidth: width)
-                
+    override init(frame: CGRect, radius: CGFloat, width: CGFloat, startAngle: Float) {
+        super.init(frame: frame, radius: radius, width: width, startAngle: startAngle)
+        
         setupProgressButton()
         updateProgressButtonFrame()
         setProgress(0)
     }
-    
+
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
 //    MARK: Override
     override  public func setProgress(progress: CGFloat) {
