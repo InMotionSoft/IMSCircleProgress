@@ -30,7 +30,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         circleProgress.lineWidth = 8
         circleProgress.progressStrokeColor = UIColor.orangeColor()
 //        circleProgress.initProgressViewWithRadius(55, lineWidth: 8.0)
-        circleProgress.setProgress(0.25)
+//        circleProgress.setProgress(0.25)
         
 //        dragProgress.progressButtonSize = 30.0
 //        dragProgress.progressStrokeColor = UIColor.greenColor()
@@ -61,7 +61,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if let progressText = prgressTextField.text {
             let numberFormatter = NSNumberFormatter()
             if let number = numberFormatter.numberFromString(progressText) {
-                circleProgress.setProgress(CGFloat(number.floatValue))
+                circleProgress.progress = CGFloat(number.floatValue)
             }
         }
     }

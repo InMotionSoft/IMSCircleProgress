@@ -9,10 +9,36 @@
 import Foundation
 import UIKit
 
-@objc public class IMSCircleDoubleDragProgressView: IMSCircleDragProgressView {
+public class IMSCircleDoubleDragProgressView: IMSCircleDragProgressView {
     
     public var rangeButton: UIButton!
+    var currentProgress: CGFloat = 0
     
+    override public var progress: CGFloat {
+//        get {
+//            return self.currentProgress
+//        }
+//        
+//        set {
+//        
+//        }
+        
+        willSet {
+            let baseAngle = angleBetweenCenterAndPoint(rangeButton.center)
+            let baseProgress = (baseAngle >= 0 && baseAngle <= kMaxAngle) ? baseAngle/kFullCircleAngle : (kFullCircleAngle + baseAngle)/kFullCircleAngle
+            
+            startAngle = IMSCircleProgressPosition.Top.rawValue + baseAngle
+            endAngle = kFullCircleAngle + startAngle
+            
+            let progressButtonAngle = angleBetweenCenterAndPoint(progressButton.center)
+            let currentProgress = (progressButtonAngle >= 0 && progressButtonAngle <= kMaxAngle) ? progressButtonAngle/kFullCircleAngle : (kFullCircleAngle + progressButtonAngle)/kFullCircleAngle
+            
+            let finalProgress = (currentProgress >= baseProgress) ? currentProgress - baseProgress : 1 + currentProgress - baseProgress
+            self.currentProgress = CGFloat(finalProgress)
+//            self.currentProgress = finalProgress
+//            self.progress = finalProgress
+        }
+    }
     
 //    MARK: Overrides
     override init(frame: CGRect, radius: CGFloat, width: CGFloat, startAngle: Float) {
@@ -27,19 +53,19 @@ import UIKit
 //        fatalError("init(coder:) has not been implemented")
     }
     
-    override public func setProgress(progress: CGFloat) {
-        let baseAngle = angleBetweenCenterAndPoint(rangeButton.center)
-        let baseProgress = (baseAngle >= 0 && baseAngle <= kMaxAngle) ? baseAngle/kFullCircleAngle : (kFullCircleAngle + baseAngle)/kFullCircleAngle
-
-        startAngle = IMSCircleProgressPosition.Top.rawValue + baseAngle
-        endAngle = kFullCircleAngle + startAngle
-        
-        let progressButtonAngle = angleBetweenCenterAndPoint(progressButton.center)
-        let currentProgress = (progressButtonAngle >= 0 && progressButtonAngle <= kMaxAngle) ? progressButtonAngle/kFullCircleAngle : (kFullCircleAngle + progressButtonAngle)/kFullCircleAngle
-        
-        let finalProgress = (currentProgress >= baseProgress) ? currentProgress - baseProgress : 1 + currentProgress - baseProgress
-        super.setProgress(CGFloat(finalProgress))
-    }
+//    override public func setProgress(progress: CGFloat) {
+//        let baseAngle = angleBetweenCenterAndPoint(rangeButton.center)
+//        let baseProgress = (baseAngle >= 0 && baseAngle <= kMaxAngle) ? baseAngle/kFullCircleAngle : (kFullCircleAngle + baseAngle)/kFullCircleAngle
+//
+//        startAngle = IMSCircleProgressPosition.Top.rawValue + baseAngle
+//        endAngle = kFullCircleAngle + startAngle
+//        
+//        let progressButtonAngle = angleBetweenCenterAndPoint(progressButton.center)
+//        let currentProgress = (progressButtonAngle >= 0 && progressButtonAngle <= kMaxAngle) ? progressButtonAngle/kFullCircleAngle : (kFullCircleAngle + progressButtonAngle)/kFullCircleAngle
+//        
+//        let finalProgress = (currentProgress >= baseProgress) ? currentProgress - baseProgress : 1 + currentProgress - baseProgress
+//        super.setProgress(CGFloat(finalProgress))
+//    }
     
     override func buttonDrag(button: UIButton, withEvent event:UIEvent) {
 
@@ -49,7 +75,7 @@ import UIKit
             button.center = pointForAngle(angle)
         }
         
-        self.setProgress(0)
+        self.progress = 0
     }
     
     

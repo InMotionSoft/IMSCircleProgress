@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-@objc public class IMSCircleDragProgressView: IMSCircleProgressView {
+public class IMSCircleDragProgressView: IMSCircleProgressView {
     
     public var shouldBoundProgress = false
     
@@ -21,12 +21,29 @@ import UIKit
     private let kProgressHalf: CGFloat = 0.5
     private let kProgressAccuracy: CGFloat = 0.1
     
+    
+    override public var progress: CGFloat {
+        didSet {
+            let circlePath = setupPathWithRadius(radius)
+            
+            let progressCircle = self.layer as! CAShapeLayer
+            progressCircle.path = circlePath.CGPath
+            progressCircle.strokeColor = progressStrokeColor.CGColor
+            progressCircle.fillColor = progressFillColor.CGColor
+            progressCircle.lineWidth = lineWidth
+            progressCircle.strokeStart = strokeStart
+            progressCircle.strokeEnd = progress
+        }
+        
+    }
+    
     override init(frame: CGRect, radius: CGFloat, width: CGFloat, startAngle: Float) {
         super.init(frame: frame, radius: radius, width: width, startAngle: startAngle)
         
         setupProgressButton()
         updateProgressButtonFrame()
-        setProgress(0)
+        self.progress = 0
+//        setProgress(0)
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -35,18 +52,18 @@ import UIKit
     }
     
 //    MARK: Override
-    override  public func setProgress(progress: CGFloat) {
-        currentProgress = progress
-        let circlePath = setupPathWithRadius(radius)
-        
-        let progressCircle = self.layer as! CAShapeLayer
-        progressCircle.path = circlePath.CGPath
-        progressCircle.strokeColor = progressStrokeColor.CGColor
-        progressCircle.fillColor = progressFillColor.CGColor
-        progressCircle.lineWidth = lineWidth
-        progressCircle.strokeStart = strokeStart
-        progressCircle.strokeEnd = progress
-    }
+//    override  public func setProgress(progress: CGFloat) {
+//        currentProgress = progress
+//        let circlePath = setupPathWithRadius(radius)
+//        
+//        let progressCircle = self.layer as! CAShapeLayer
+//        progressCircle.path = circlePath.CGPath
+//        progressCircle.strokeColor = progressStrokeColor.CGColor
+//        progressCircle.fillColor = progressFillColor.CGColor
+//        progressCircle.lineWidth = lineWidth
+//        progressCircle.strokeStart = strokeStart
+//        progressCircle.strokeEnd = progress
+//    }
     
     
 //    MARK: Private
@@ -76,7 +93,8 @@ import UIKit
                 limitProgressIfNeeded(CGFloat(progress), forButton: button, withAngle: angle)
             } else {
                 button.center = pointForAngle(angle)
-                self.setProgress(CGFloat(progress))
+                self.progress = CGFloat(progress)
+//                self.setProgress(CGFloat(progress))
             }
         }
     }
@@ -109,15 +127,17 @@ import UIKit
     
 //    MARK: Help
     private func limitProgressIfNeeded(progress: CGFloat, forButton button: UIButton, withAngle angle: Float) {
-        if currentProgress < kProgressHalf {
+        if self.progress < kProgressHalf {
             let newAngle: Float = (progress < kProgressHalf+kProgressAccuracy) ? angle : startAngle+90
             let newProgress: CGFloat = (progress < kProgressHalf+kProgressAccuracy) ? progress : 0
-            self.setProgress(newProgress)
+            self.progress = newProgress
+//            self.setProgress(newProgress)
             button.center = pointForAngle(newAngle)
         } else {
             let newAngle: Float = (progress > kProgressHalf-kProgressAccuracy) ? angle : endAngle+90
             let newProgress: CGFloat = (progress > kProgressHalf-kProgressAccuracy) ? progress : 1
-            self.setProgress(newProgress)
+//            self.setProgress(newProgress)
+            self.progress = newProgress
             button.center = pointForAngle(newAngle)
         }
     }

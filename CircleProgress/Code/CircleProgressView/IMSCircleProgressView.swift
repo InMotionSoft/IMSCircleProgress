@@ -34,10 +34,25 @@ public class IMSCircleProgressView: UIView {
     let kMaxAngle: Float = 180.0;
     let kFullCircleAngle: Float = 360.0;
     
-    public var currentProgress: CGFloat = 0.0
+    public var progress: CGFloat = 0.0 {
+        didSet {
+            let finalProgress = self.endlessProgress(progress)
+            let progressDif = abs(oldValue - progress)
+            let time: NSTimeInterval = NSTimeInterval(progressDuration * progressDif)
+            let endAnimation = CABasicAnimation.createMoveAnimation(toValue: finalProgress, withDuration: time)
+
+            self.layer.addAnimation(endAnimation, forKey: nil)
+        }
+    }
+    
     public var progressFillColor = UIColor.redColor()
-    public var progressStrokeColor = UIColor.darkGrayColor()
-    public var progressTimeInterval : CGFloat = 10;
+    public var progressStrokeColor = UIColor.darkGrayColor() {
+        didSet {
+            self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
+        }
+    }
+    
+    public var progressDuration : CGFloat = 10;
     
     public var radius: CGFloat = 0.0 {
         didSet {
@@ -51,8 +66,9 @@ public class IMSCircleProgressView: UIView {
         }
     }
     
-    public var startAngle: Float = 0.0
+    public var startAngle: Float = IMSCircleProgressPosition.Top.rawValue
     public var endAngle: Float = 0
+    
     
     override public class func layerClass() -> AnyClass {
         return CAShapeLayer.self
@@ -87,23 +103,6 @@ public class IMSCircleProgressView: UIView {
         self.setupCircleViewLineWidth(self.lineWidth, radius: radius)
     }
     
-//    public func initProgressView(withRadius radius: CGFloat, lineWidth width: CGFloat, startAngle angle: Float) {
-////        self.initProgressViewWithRadius(radius, lineWidth: width)
-//        
-//        self.startAngle = angle
-//        self.endAngle = kFullCircleAngle + angle
-//    }
-    
-    public func setProgress(progress: CGFloat) {
-        currentProgress = progress
-        
-        let finalProgress = self.endlessProgress(progress)
-        let time: NSTimeInterval = NSTimeInterval((progressTimeInterval/10) * finalProgress)
-        let endAnimation = CABasicAnimation.createMoveAnimation(toValue: finalProgress, withDuration: time)
-        
-        self.layer.addAnimation(endAnimation, forKey: nil)
-    }
-    
     
 // MARK: Private Methods
     private func setupCircleViewLineWidth(lineWidth: CGFloat, radius circleRadius: CGFloat) {
@@ -114,13 +113,14 @@ public class IMSCircleProgressView: UIView {
         progressCircle.strokeColor = progressStrokeColor.CGColor
         progressCircle.fillColor = progressFillColor.CGColor
         progressCircle.lineWidth = lineWidth
+        progressCircle.strokeEnd = self.progress
     }
     
     func setupPathWithRadius(radius: CGFloat) -> UIBezierPath {
         
         let centerPoint = CGPoint (x: self.frame.width / 2, y: self.frame.width / 2);
-        let start = startAngle * Float(M_PI)/180.0
-        let end = endAngle * Float(M_PI)/180.0
+        let start = startAngle * Float(M_PI) / 180.0
+        let end = endAngle * Float(M_PI) / 180.0
         return UIBezierPath(arcCenter: centerPoint, radius: radius, startAngle: CGFloat(start), endAngle: CGFloat(end), clockwise: true);
     }    
     
