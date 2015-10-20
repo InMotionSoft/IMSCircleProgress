@@ -35,14 +35,24 @@ public class IMSCircleProgressView: UIView {
     let kFullCircleAngle: Float = 360.0;
     
     public var currentProgress: CGFloat = 0.0
-    public var progressFillColor = UIColor.clearColor()
+    public var progressFillColor = UIColor.redColor()
     public var progressStrokeColor = UIColor.darkGrayColor()
     public var progressTimeInterval : CGFloat = 10;
     
-    public var radius: CGFloat = 0.0
-    public var lineWidth: CGFloat = 22.0
-    public var startAngle: Float!
-    public var endAngle: Float!
+    public var radius: CGFloat = 0.0 {
+        didSet {
+            self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
+        }
+    }
+    
+    public var lineWidth: CGFloat = 22.0 {
+        didSet {
+            self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
+        }
+    }
+    
+    public var startAngle: Float = 0.0
+    public var endAngle: Float = 0
     
     override public class func layerClass() -> AnyClass {
         return CAShapeLayer.self
@@ -51,7 +61,11 @@ public class IMSCircleProgressView: UIView {
     
 // MARK: Public Methods
     required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        self.endAngle = kFullCircleAngle + self.startAngle
+        
+        super.init(coder: aDecoder)
+        
+        self.setupCircleViewLineWidth(self.lineWidth, radius: radius)
     }
     
     override convenience init(frame: CGRect) {
@@ -93,7 +107,6 @@ public class IMSCircleProgressView: UIView {
     
 // MARK: Private Methods
     private func setupCircleViewLineWidth(lineWidth: CGFloat, radius circleRadius: CGFloat) {
-        
         let circlePath = self.setupPathWithRadius(circleRadius)
         
         let progressCircle = self.layer as! CAShapeLayer
@@ -101,8 +114,6 @@ public class IMSCircleProgressView: UIView {
         progressCircle.strokeColor = progressStrokeColor.CGColor
         progressCircle.fillColor = progressFillColor.CGColor
         progressCircle.lineWidth = lineWidth
-        progressCircle.strokeStart = 0
-        progressCircle.strokeEnd = 0
     }
     
     func setupPathWithRadius(radius: CGFloat) -> UIBezierPath {
