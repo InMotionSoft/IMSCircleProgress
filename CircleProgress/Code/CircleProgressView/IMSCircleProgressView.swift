@@ -45,14 +45,19 @@ public class IMSCircleProgressView: UIView {
         }
     }
     
-    public var progressFillColor = UIColor.redColor()
+    public var progressFillColor = UIColor.redColor() {
+        didSet {
+            self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
+        }
+    }
+    
     public var progressStrokeColor = UIColor.darkGrayColor() {
         didSet {
             self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
         }
     }
     
-    public var progressDuration : CGFloat = 10;
+    public var progressDuration : CGFloat = 3;
     
     public var radius: CGFloat = 0.0 {
         didSet {

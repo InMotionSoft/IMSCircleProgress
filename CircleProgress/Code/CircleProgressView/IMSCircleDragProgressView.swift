@@ -12,15 +12,15 @@ import UIKit
 
 public class IMSCircleDragProgressView: IMSCircleProgressView {
     
-    public var shouldBoundProgress = false
+    public var shouldCrossStartPosition = false
     
-    var progressButton: UIButton!
-    var progressButtonSize: CGFloat = 44.0
+    private(set) public var progressButton: UIButton!
+    public var progressButtonSize: CGFloat = 44.0
+    
     var strokeStart: CGFloat = 0.0
     
     private let kProgressHalf: CGFloat = 0.5
     private let kProgressAccuracy: CGFloat = 0.1
-    
     
     override public var progress: CGFloat {
         didSet {
@@ -34,7 +34,12 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
             progressCircle.strokeStart = strokeStart
             progressCircle.strokeEnd = progress
         }
-        
+    }
+    
+    override public var radius: CGFloat {
+        didSet {
+            self.updateProgressButtonFrame()
+        }
     }
     
     override init(frame: CGRect, radius: CGFloat, width: CGFloat, startAngle: Float) {
@@ -42,13 +47,13 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
         
         setupProgressButton()
         updateProgressButtonFrame()
-        self.progress = 0
-//        setProgress(0)
     }
 
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-//        fatalError("init(coder:) has not been implemented")
+        
+        setupProgressButton()
+        updateProgressButtonFrame()
     }
     
 //    MARK: Override
@@ -77,8 +82,11 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
     }
     
     func updateProgressButtonFrame() {
-            progressButton.frame = CGRectMake(self.frame.width/2-progressButtonSize/2, (self.frame.size.height/2 - lineWidth)-radius, progressButtonSize, progressButtonSize)
-        }
+        progressButton.frame = CGRectMake(self.frame.width / 2 - progressButtonSize / 2, (self.frame.height / 2 - lineWidth) - radius,
+                                          progressButtonSize, progressButtonSize)
+        let angle = angleBetweenCenterAndPoint(CGPointMake(self.frame.width / 2, 0))
+        self.progressButton.center = pointForAngle(angle)
+    }
     
     
 //    MARK: Events
@@ -89,12 +97,11 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
             let angle = angleBetweenCenterAndPoint(point)
             let progress = (angle >= 0 && angle <= kMaxAngle) ? angle/kFullCircleAngle : (kFullCircleAngle + angle)/kFullCircleAngle
             
-            if shouldBoundProgress {
-                limitProgressIfNeeded(CGFloat(progress), forButton: button, withAngle: angle)
-            } else {
+            if self.shouldCrossStartPosition {
                 button.center = pointForAngle(angle)
                 self.progress = CGFloat(progress)
-//                self.setProgress(CGFloat(progress))
+            } else {
+                limitProgressIfNeeded(CGFloat(progress), forButton: button, withAngle: angle)
             }
         }
     }
@@ -102,12 +109,11 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
     
 //    MARK: angle & point calculation
      func pointForAngle(angle: Float) -> CGPoint {
-        let angleRadiant = angle * Float(M_PI)/180.0
+        let angleRadiant = angle * Float(M_PI) / 180.0
         
         let R: Float = Float(radius + lineWidth / 2 - progressButtonSize / 4)
         let newX = R * sin(angleRadiant)
         let newY = R * cos(angleRadiant)
-        
         let invertedY = self.bounds.size.height - (CGFloat(newY) + self.bounds.size.height/2)
         
         return CGPointMake(CGFloat(newX) + self.bounds.size.width/2.0, invertedY)
@@ -131,12 +137,10 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
             let newAngle: Float = (progress < kProgressHalf+kProgressAccuracy) ? angle : startAngle+90
             let newProgress: CGFloat = (progress < kProgressHalf+kProgressAccuracy) ? progress : 0
             self.progress = newProgress
-//            self.setProgress(newProgress)
             button.center = pointForAngle(newAngle)
         } else {
             let newAngle: Float = (progress > kProgressHalf-kProgressAccuracy) ? angle : endAngle+90
             let newProgress: CGFloat = (progress > kProgressHalf-kProgressAccuracy) ? progress : 1
-//            self.setProgress(newProgress)
             self.progress = newProgress
             button.center = pointForAngle(newAngle)
         }

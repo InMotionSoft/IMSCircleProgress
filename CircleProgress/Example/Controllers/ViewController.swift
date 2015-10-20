@@ -29,16 +29,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
         circleProgress.radius = 55
         circleProgress.lineWidth = 8
         circleProgress.progressStrokeColor = UIColor.orangeColor()
-//        circleProgress.initProgressViewWithRadius(55, lineWidth: 8.0)
-//        circleProgress.setProgress(0.25)
         
 //        dragProgress.progressButtonSize = 30.0
-//        dragProgress.progressStrokeColor = UIColor.greenColor()
-//        dragProgress.backgroundColor = UIColor.clearColor()
-////        dragProgress.initProgressViewWithRadius(55.0, lineWidth: 6.0)
-//        dragProgress.shouldBoundProgress = true
-//        dragProgress.progressButton.backgroundColor = UIColor.whiteColor()
-//        dragProgress.progressButton.alpha = 0.5
+        dragProgress.progressStrokeColor = UIColor.greenColor()
+        dragProgress.backgroundColor = UIColor.clearColor()
+//        dragProgress.initProgressViewWithRadius(55.0, lineWidth: 6.0)
+        dragProgress.radius = 55
+        dragProgress.lineWidth = 6
+        dragProgress.shouldCrossStartPosition = true
+        dragProgress.progressButton.backgroundColor = UIColor.whiteColor()
+        dragProgress.progressButton.alpha = 0.5
 
 //        testDragProgress.progressStrokeColor = UIColor.whiteColor()
 //        testDragProgress.backgroundColor = UIColor.clearColor()
