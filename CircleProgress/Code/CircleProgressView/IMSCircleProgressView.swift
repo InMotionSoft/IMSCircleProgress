@@ -110,7 +110,7 @@ public class IMSCircleProgressView: UIView {
     
     
 // MARK: Private Methods
-    private func setupCircleViewLineWidth(lineWidth: CGFloat, radius circleRadius: CGFloat) {
+    func setupCircleViewLineWidth(lineWidth: CGFloat, radius circleRadius: CGFloat) {
         let circlePath = self.setupPathWithRadius(circleRadius)
         
         let progressCircle = self.layer as! CAShapeLayer
