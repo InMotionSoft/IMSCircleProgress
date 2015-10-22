@@ -37,7 +37,9 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
     
     override public var startAngle: Float {
         didSet {
+            self.endAngle = startAngle + kFullCircleAngle
             self.updateProgressButtonFrame()
+            self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
         }
     }
     
@@ -78,39 +80,41 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
         if self.progress == 0 {
             progressButton.frame = CGRectMake(self.frame.width / 2 - progressButtonSize / 2, (self.frame.height / 2 - lineWidth) - radius,
             progressButtonSize, progressButtonSize)
+            self.progressButton.center = self.pointForAngle(self.startAngle)
+        } else {
+            let angle: Float = self.angleBetweenCenterAndPoint(self.progressButton.center)
+            self.progressButton.center = self.pointForAngle(angle)
         }
-        
-        let angle: Float = self.angleBetweenCenterAndPoint(self.progressButton.center)
-        self.progressButton.center = self.pointForAngle(angle)
     }
     
     
 //    MARK: Events
     func buttonDrag(button: UIButton, withEvent event:UIEvent) {
         
-        if let touch: UITouch = event.allTouches()?.first {
-            
-            let previousLocation = touch.previousLocationInView(button)
-            let location = touch.locationInView(button)
-            let deltaX: CGFloat = location.x - previousLocation.x
-            let deltaY: CGFloat = location.y - previousLocation.y
-            
-            button.center = CGPointMake(button.center.x + deltaX, button.center.y + deltaY)
-            let angle: Float = self.angleBetweenCenterAndPoint(self.progressButton.center)
-            button.center = self.pointForAngle(angle)
-            
-            let angleForProgress = angle + abs(self.startAngle)
-            var progress = angleForProgress / kFullCircleAngle
-            
-            if progress < 0 {
-                progress = (kFullCircleAngle + angleForProgress)/kFullCircleAngle
-            }
-            
-            if self.shouldCrossStartPosition {
-                self.progress = CGFloat(progress)
-            } else {
-                limitProgressIfNeeded(CGFloat(progress), forButton: button, withAngle: angle)
-            }
+        guard let touch: UITouch = event.allTouches()?.first else {
+            return
+        }
+         
+        let previousLocation = touch.previousLocationInView(button)
+        let location = touch.locationInView(button)
+        let deltaX: CGFloat = location.x - previousLocation.x
+        let deltaY: CGFloat = location.y - previousLocation.y
+        
+        button.center = CGPointMake(button.center.x + deltaX, button.center.y + deltaY)
+        let angle: Float = self.angleBetweenCenterAndPoint(self.progressButton.center)
+        button.center = self.pointForAngle(angle)
+        
+        let angleForProgress = angle - self.startAngle
+        var progress = angleForProgress / kFullCircleAngle
+        
+        if progress < 0 {
+            progress = (kFullCircleAngle + angleForProgress)/kFullCircleAngle
+        }
+        
+        if self.shouldCrossStartPosition {
+            self.progress = CGFloat(progress)
+        } else {
+            limitProgressIfNeeded(CGFloat(progress), forButton: button, withAngle: angle)
         }
     }
 
