@@ -22,9 +22,6 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
     }
     
     var strokeStart: CGFloat = 0.0
-    private let kProgressHalf: CGFloat = 0.5
-    private let kProgressAccuracy: CGFloat = 0.1
-    
     override public var progress: CGFloat {
         didSet {
             self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
@@ -141,6 +138,9 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
     
 //    MARK: Help
     private func limitProgressIfNeeded(progress: CGFloat, forButton button: UIButton, withAngle angle: Float) {
+        let kProgressHalf: CGFloat = 0.5
+        let kProgressAccuracy: CGFloat = 0.1
+        
         if self.progress < kProgressHalf {
             let newAngle: Float = (progress < kProgressHalf+kProgressAccuracy) ? angle : startAngle+90
             let newProgress: CGFloat = (progress < kProgressHalf+kProgressAccuracy) ? progress : 0
