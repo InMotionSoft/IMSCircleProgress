@@ -26,7 +26,6 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
     private let kProgressHalf: CGFloat = 0.5
     private let kProgressAccuracy: CGFloat = 0.1
     private var previousPoint: CGPoint = CGPointZero
-    private var currentAngle: Float = IMSCircleProgressPosition.Top.rawValue
     
     override public var progress: CGFloat {
         didSet {
@@ -43,7 +42,6 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
     
     override public var startAngle: Float {
         didSet {
-            self.currentAngle = self.startAngle
             self.updateProgressButtonFrame()
         }
     }
@@ -84,7 +82,7 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
     private func updateProgressButtonFrame() {
         progressButton.frame = CGRectMake(self.frame.width / 2 - progressButtonSize / 2, (self.frame.height / 2 - lineWidth) - radius,
                                           progressButtonSize, progressButtonSize)
-        self.progressButton.center = pointForAngle(Float(self.currentAngle))
+        self.progressButton.center = pointForAngle(self.startAngle)
         self.previousPoint = self.progressButton.center
     }
     
@@ -93,36 +91,25 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
     func buttonDrag(button: UIButton, withEvent event:UIEvent) {
         
         if let touch: UITouch = event.allTouches()?.first {
-            let point = touch.locationInView(self)
             
-//            let newPoint: CGPoint = CGPointMake(point.x - self.previousPoint.x, point.y - self.previousPoint.y)
+            let previousLocation = touch.previousLocationInView(button)
+            let location = touch.locationInView(button)
+            let deltaX: CGFloat = location.x - previousLocation.x
+            let deltaY: CGFloat = location.y - previousLocation.y
             
-//            let velocity: Float = 1
+            button.center = CGPointMake(button.center.x + deltaX, button.center.y + deltaY)
+            let angle: Float = Float(atan2((button.center.y - self.frame.height / 2), (button.center.x - self.frame.width / 2)) * 180.0/CGFloat(M_PI));
+            button.center = self.pointForAngle(angle)
             
-//            if newPoint.x < 0 && newPoint.y < 0 {
-//                self.currentAngle -= velocity
-//            } else {
-
-//            }
+            let angleForProgress = angle + abs(self.startAngle)
+            var progress = angleForProgress / kFullCircleAngle
             
-            
-            let angle = angleBetweenCenterAndPoint(point)
-            
-            let centerPoint = CGPoint (x: self.frame.width / 2, y: self.frame.width / 2);
-            let start = angle * Float(M_PI) / 180.0
-            let end = angle * Float(M_PI) / 180.0
-            UIBezierPath(arcCenter: centerPoint, radius: radius, startAngle: CGFloat(start), endAngle: CGFloat(end), clockwise: true);
-
-            
-            let progress = (angle >= 0 && angle <= kMaxAngle) ? angle/kFullCircleAngle : (kFullCircleAngle + angle)/kFullCircleAngle
+            if progress < 0 {
+                progress = (kFullCircleAngle + angleForProgress)/kFullCircleAngle
+            }
             
             if self.shouldCrossStartPosition {
                 self.progress = CGFloat(progress)
-                
-                let distance: Float = sqrtf(powf(Float(point.x - self.previousPoint.x), 2.0) + powf(Float(point.y - self.previousPoint.y), 2.0))
-                self.currentAngle += distance
-                
-                button.center = pointForAngle(self.currentAngle)
             } else {
                 limitProgressIfNeeded(CGFloat(progress), forButton: button, withAngle: angle)
             }
@@ -134,12 +121,9 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
      func pointForAngle(angle: Float) -> CGPoint {
         let angleRadiant = angle * Float(M_PI) / 180.0
         
-//        let R: Float = Float(radius + lineWidth / 2 - progressButtonSize * 0.2) //- progressButtonSize / 4)
-        let R: Float = Float(self.radius)//Float(self.frame.width) / 2.0
-        let newX = R * cos(angleRadiant) + Float(self.frame.width / 2)//Float(self.radius) * cos(angleRadiant)// + Float(self.frame.width / 2)
-        let newY = R * sin(angleRadiant) + Float(self.frame.height / 2)//Float(self.radius) * sin(angleRadiant) + Float(self.frame.height / 2)
-//        let invertedY = self.bounds.size.height - (CGFloat(newY) + self.bounds.size.height/2)
-        
+        let R: Float = Float(self.radius)
+        let newX = R * cos(angleRadiant) + Float(self.frame.width / 2)
+        let newY = R * sin(angleRadiant) + Float(self.frame.height / 2)
         return CGPointMake(CGFloat(newX), CGFloat(newY))
     }
     
