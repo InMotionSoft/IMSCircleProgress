@@ -39,7 +39,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         dragProgress.shouldCrossStartPosition = true
         dragProgress.progressButton.backgroundColor = UIColor.whiteColor()
         dragProgress.progressButton.alpha = 0.5
-        dragProgress.progressButtonSize = 40
+        dragProgress.progressButtonSize = 80
         dragProgress.progressButton.layer.cornerRadius = dragProgress.progressButtonSize / 2
 
 //        testDragProgress.progressStrokeColor = UIColor.whiteColor()
@@ -74,6 +74,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             let numberFormatter = NSNumberFormatter()
             if let number = numberFormatter.numberFromString(radiusText) {
                 self.circleProgress.radius = CGFloat(number.floatValue)
+                self.dragProgress.radius = CGFloat(number.floatValue)
 //                circleProgress.initProgressViewWithRadius(CGFloat(number.floatValue), lineWidth: 8.0)
             }
         }

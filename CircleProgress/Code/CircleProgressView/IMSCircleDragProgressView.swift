@@ -22,10 +22,8 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
     }
     
     var strokeStart: CGFloat = 0.0
-    
     private let kProgressHalf: CGFloat = 0.5
     private let kProgressAccuracy: CGFloat = 0.1
-    private var previousPoint: CGPoint = CGPointZero
     
     override public var progress: CGFloat {
         didSet {
@@ -80,10 +78,13 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
     }
     
     private func updateProgressButtonFrame() {
-        progressButton.frame = CGRectMake(self.frame.width / 2 - progressButtonSize / 2, (self.frame.height / 2 - lineWidth) - radius,
-                                          progressButtonSize, progressButtonSize)
-        self.progressButton.center = pointForAngle(self.startAngle)
-        self.previousPoint = self.progressButton.center
+        if self.progress == 0 {
+            progressButton.frame = CGRectMake(self.frame.width / 2 - progressButtonSize / 2, (self.frame.height / 2 - lineWidth) - radius,
+            progressButtonSize, progressButtonSize)
+        }
+        
+        let angle: Float = self.angleBetweenCenterAndPoint(self.progressButton.center)
+        self.progressButton.center = self.pointForAngle(angle)
     }
     
     
@@ -98,7 +99,7 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
             let deltaY: CGFloat = location.y - previousLocation.y
             
             button.center = CGPointMake(button.center.x + deltaX, button.center.y + deltaY)
-            let angle: Float = Float(atan2((button.center.y - self.frame.height / 2), (button.center.x - self.frame.width / 2)) * 180.0/CGFloat(M_PI));
+            let angle: Float = self.angleBetweenCenterAndPoint(self.progressButton.center)
             button.center = self.pointForAngle(angle)
             
             let angleForProgress = angle + abs(self.startAngle)
@@ -128,9 +129,8 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
     }
     
      func angleBetweenCenterAndPoint(point: CGPoint) -> Float {
-        let center: CGPoint = CGPointMake(self.bounds.size.width/2.0, self.bounds.size.height/2.0)
-        let theAngle = atan2(point.x - center.x, center.y - point.y) * 180.0/CGFloat(M_PI);
-        return clampAngle(Float(theAngle))
+        let angle = atan2((point.y - self.frame.height / 2), (point.x - self.frame.width / 2))
+        return Float(angle * 180.0/CGFloat(M_PI))
     }
     
     private func clampAngle(let angle : Float) -> Float {

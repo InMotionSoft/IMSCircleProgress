@@ -24,13 +24,13 @@ public class IMSCircleDoubleDragProgressView: IMSCircleDragProgressView {
 //        }
         
         willSet {
-            let baseAngle = angleBetweenCenterAndPoint(rangeButton.center)
+            let baseAngle: Float = 0.0 //angleBetweenCenterAndPoint(rangeButton.center)
             let baseProgress = (baseAngle >= 0 && baseAngle <= kMaxAngle) ? baseAngle/kFullCircleAngle : (kFullCircleAngle + baseAngle)/kFullCircleAngle
             
             startAngle = IMSCircleProgressPosition.Top.rawValue + baseAngle
             endAngle = kFullCircleAngle + startAngle
             
-            let progressButtonAngle = angleBetweenCenterAndPoint(progressButton.center)
+            let progressButtonAngle: Float = 0//angleBetweenCenterAndPoint(progressButton.center)
             let currentProgress = (progressButtonAngle >= 0 && progressButtonAngle <= kMaxAngle) ? progressButtonAngle/kFullCircleAngle : (kFullCircleAngle + progressButtonAngle)/kFullCircleAngle
             
             let finalProgress = (currentProgress >= baseProgress) ? currentProgress - baseProgress : 1 + currentProgress - baseProgress
@@ -71,7 +71,7 @@ public class IMSCircleDoubleDragProgressView: IMSCircleDragProgressView {
 
         if let touch: UITouch = event.allTouches()?.first {
             let point = touch.locationInView(self)
-            let angle = angleBetweenCenterAndPoint(point)
+            let angle:Float = 0.0 //angleBetweenCenterAndPoint(point)
             button.center = pointForAngle(angle)
         }
         
