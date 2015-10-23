@@ -71,9 +71,13 @@ public class IMSCircleProgressView: UIView {
         }
     }
     
-    public var startAngle: Float = IMSCircleProgressPosition.Top.rawValue
-    public var endAngle: Float = 0
+    public var startAngle: Float = IMSCircleProgressPosition.Top.rawValue {
+        didSet {
+            self.endAngle = kFullCircleAngle + self.startAngle
+        }
+    }
     
+    public var endAngle: Float = 0
     
     override public class func layerClass() -> AnyClass {
         return CAShapeLayer.self
@@ -127,7 +131,8 @@ public class IMSCircleProgressView: UIView {
         let start = startAngle * Float(M_PI) / 180.0
         let end = endAngle * Float(M_PI) / 180.0
         return UIBezierPath(arcCenter: centerPoint, radius: radius, startAngle: CGFloat(start), endAngle: CGFloat(end), clockwise: true);
-    }    
+    }
+    
     
 //    MARK: Helpers
     private func endlessProgress(progress: CGFloat) -> CGFloat {

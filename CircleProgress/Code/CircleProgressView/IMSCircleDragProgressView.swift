@@ -17,7 +17,9 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
     private(set) public var progressButton: UIButton!
     public var progressButtonSize: CGFloat = 44.0 {
         didSet {
-            self.updateProgressButtonFrame()
+            var buttonFame = self.progressButton.frame
+            buttonFame.size = CGSizeMake(progressButtonSize, progressButtonSize)
+            self.progressButton.frame = buttonFame
         }
     }
     
@@ -67,16 +69,16 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
 
     
 //    MARK: Private
-    private func setupProgressButton() {
+    func setupProgressButton() {
         progressButton = UIButton(frame: CGRectMake(self.frame.width/2-progressButtonSize/2, radius, progressButtonSize, progressButtonSize))
-        progressButton.backgroundColor = UIColor.yellowColor()
+        progressButton.backgroundColor = UIColor.whiteColor()
         progressButton.addTarget(self, action: "buttonDrag:withEvent:", forControlEvents: UIControlEvents.TouchDragInside)
         progressButton.addTarget(self, action: "buttonDrag:withEvent:", forControlEvents: UIControlEvents.TouchDragOutside)
         
         self.addSubview(progressButton)
     }
     
-    private func updateProgressButtonFrame() {
+    func updateProgressButtonFrame() {
         if self.progress == 0 {
             progressButton.frame = CGRectMake(self.frame.width / 2 - progressButtonSize / 2, (self.frame.height / 2 - lineWidth) - radius,
             progressButtonSize, progressButtonSize)
@@ -101,7 +103,7 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
         let deltaY: CGFloat = location.y - previousLocation.y
         
         button.center = CGPointMake(button.center.x + deltaX, button.center.y + deltaY)
-        let angle: Float = self.angleBetweenCenterAndPoint(self.progressButton.center)
+        let angle: Float = self.angleBetweenCenterAndPoint(button.center)
         button.center = self.pointForAngle(angle)
         
         let angleForProgress = angle - self.startAngle
@@ -117,7 +119,6 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
             limitProgressIfNeeded(CGFloat(progress), forButton: button, withAngle: angle)
         }
     }
-
     
 //    MARK: angle & point calculation
      func pointForAngle(angle: Float) -> CGPoint {
