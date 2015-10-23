@@ -90,6 +90,7 @@ public class IMSCircleProgressView: UIView {
         
         super.init(coder: aDecoder)
         
+        self.radius = self.frame.width / 2
         self.setupCircleViewLineWidth(self.lineWidth, radius: radius)
     }
     
