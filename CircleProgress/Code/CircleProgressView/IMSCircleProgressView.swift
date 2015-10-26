@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension CABasicAnimation {
+public extension CABasicAnimation {
     static func createMoveAnimation(toValue value: CGFloat, withDuration duration: NSTimeInterval) -> CABasicAnimation {
         let endAnimation = CABasicAnimation(keyPath: "strokeEnd")
         endAnimation.toValue = value
@@ -20,7 +20,7 @@ extension CABasicAnimation {
 }
 
 
-enum IMSCircleProgressPosition: Float {
+public enum IMSCircleProgressPosition: Float {
     case Top = -90.0
     case Right = 0.0
     case Left = 180.0
@@ -114,7 +114,7 @@ public class IMSCircleProgressView: UIView {
     
 // MARK: Private Methods
     func setupCircleViewLineWidth(lineWidth: CGFloat, radius circleRadius: CGFloat) {
-        let circlePath = self.setupPathWithRadius(circleRadius)
+        let circlePath = self.pathForRadius(circleRadius)
         
         if self.progressLayer == nil {
             self.backgroundLayer = CAShapeLayer()
@@ -128,7 +128,6 @@ public class IMSCircleProgressView: UIView {
             self.layer.addSublayer(self.progressLayer)
         }
         
-        
         let progressCircle = self.progressLayer
         progressCircle.path = circlePath.CGPath
         progressCircle.strokeColor = progressStrokeColor.CGColor
@@ -140,7 +139,7 @@ public class IMSCircleProgressView: UIView {
         self.backgroundLayer.lineWidth = lineWidth
     }
     
-    func setupPathWithRadius(radius: CGFloat) -> UIBezierPath {
+    func pathForRadius(radius: CGFloat) -> UIBezierPath {
         
         let centerPoint = CGPoint (x: self.frame.width / 2, y: self.frame.width / 2);
         let start = startAngle * Float(M_PI) / 180.0
