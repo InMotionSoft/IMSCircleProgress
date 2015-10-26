@@ -47,13 +47,13 @@ public class IMSCircleProgressView: UIView {
         }
     }
     
-//    public var progressFillColor = UIColor.redColor() {
-//        didSet {
-//            self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
-//        }
-//    }
+    public var progressStrokeColor = UIColor.whiteColor() {
+        didSet {
+            self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
+        }
+    }
     
-    public var progressStrokeColor = UIColor.darkGrayColor() {
+    public var progressBackgroundColor = UIColor.grayColor() {
         didSet {
             self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
         }
@@ -80,11 +80,7 @@ public class IMSCircleProgressView: UIView {
     }
     
     public var endAngle: Float = 0
-    
-//    override public class func layerClass() -> AnyClass {
-//        return CAShapeLayer.self
-//    }
-    
+
     
 // MARK: Public Methods
     required public init?(coder aDecoder: NSCoder) {
@@ -133,15 +129,14 @@ public class IMSCircleProgressView: UIView {
         }
         
         
-        let progressCircle = self.progressLayer //self.layer as! CAShapeLayer
+        let progressCircle = self.progressLayer
         progressCircle.path = circlePath.CGPath
         progressCircle.strokeColor = progressStrokeColor.CGColor
-//        progressCircle.fillColor = progressFillColor.CGColor
         progressCircle.lineWidth = lineWidth
         progressCircle.strokeEnd = self.progress
         
         self.backgroundLayer.path = progressCircle.path
-        self.backgroundLayer.strokeColor = UIColor.grayColor().CGColor
+        self.backgroundLayer.strokeColor = self.progressBackgroundColor.CGColor
         self.backgroundLayer.lineWidth = lineWidth
     }
     
