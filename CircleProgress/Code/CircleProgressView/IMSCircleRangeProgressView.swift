@@ -50,6 +50,7 @@ public class IMSCircleRangeProgressView: IMSCircleDragProgressView {
             self.rangeButton1Size = newValue
         }
     }
+    
 
 //    MARK: Overrides
     override init(frame: CGRect, radius: CGFloat, width: CGFloat, startAngle: Float) {
@@ -106,6 +107,7 @@ public class IMSCircleRangeProgressView: IMSCircleDragProgressView {
         self.insertSubview(rangeButton1, belowSubview: self.rangeButton2)
     }
 
+    
 //    MARK: Help Methods
     private func calculateProgressForButton(button: UIButton) -> CGFloat {
         let angle: Float = self.angleBetweenCenterAndPoint(button.center)
@@ -120,9 +122,10 @@ public class IMSCircleRangeProgressView: IMSCircleDragProgressView {
     }
     
     private func updateProgressLayer() {
-        let progressCircle = self.layer as! CAShapeLayer
+        let progressCircle = self.progressLayer
         progressCircle.strokeStart = min(self.rangeProgress.start, self.rangeProgress.end)
         progressCircle.strokeEnd   = max(self.rangeProgress.start, self.rangeProgress.end)
+        progressCircle.removeAllAnimations()
     }
     
     private func updateRangeProgress() {

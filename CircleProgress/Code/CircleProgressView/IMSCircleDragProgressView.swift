@@ -63,7 +63,7 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
     override func setupCircleViewLineWidth(lineWidth: CGFloat, radius circleRadius: CGFloat) {
         super.setupCircleViewLineWidth(lineWidth, radius: circleRadius)
         
-        let layer = self.layer as! CAShapeLayer
+        let layer = self.progressLayer //self.layer as! CAShapeLayer
         layer.removeAllAnimations()
     }
 
@@ -119,6 +119,7 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
             limitProgressIfNeeded(CGFloat(progress), forButton: button, withAngle: angle)
         }
     }
+    
     
 //    MARK: angle & point calculation
      func pointForAngle(angle: Float) -> CGPoint {
