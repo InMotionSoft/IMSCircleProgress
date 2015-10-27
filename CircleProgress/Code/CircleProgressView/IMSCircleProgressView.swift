@@ -43,7 +43,7 @@ public class IMSCircleProgressView: UIView {
             let time: NSTimeInterval = NSTimeInterval(progressDuration * progressDif)
             let endAnimation = CABasicAnimation.createMoveAnimation(toValue: finalProgress, withDuration: time)
 
-            self.layer.addAnimation(endAnimation, forKey: nil)
+            self.progressLayer.addAnimation(endAnimation, forKey: nil)
         }
     }
     

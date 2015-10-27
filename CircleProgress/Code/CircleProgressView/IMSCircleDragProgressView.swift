@@ -63,7 +63,7 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
     override func setupCircleViewLineWidth(lineWidth: CGFloat, radius circleRadius: CGFloat) {
         super.setupCircleViewLineWidth(lineWidth, radius: circleRadius)
         
-        let layer = self.progressLayer //self.layer as! CAShapeLayer
+        let layer = self.progressLayer
         layer.removeAllAnimations()
     }
 
