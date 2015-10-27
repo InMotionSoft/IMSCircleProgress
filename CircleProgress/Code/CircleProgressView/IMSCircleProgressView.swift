@@ -29,7 +29,7 @@ public enum IMSCircleProgressPosition: Float {
 
 
 public class IMSCircleProgressView: UIView {
-
+    
     let kDefaultInterval = 0.33
     let kMaxAngle: Float = 180.0;
     let kFullCircleAngle: Float = 360.0;
@@ -39,11 +39,18 @@ public class IMSCircleProgressView: UIView {
     public var progress: CGFloat = 0.0 {
         didSet {
             let finalProgress = self.endlessProgress(progress)
-            let progressDif = abs(oldValue - progress)
-            let time: NSTimeInterval = NSTimeInterval(progressDuration * progressDif)
-            let endAnimation = CABasicAnimation.createMoveAnimation(toValue: finalProgress, withDuration: time)
-
-            self.progressLayer.addAnimation(endAnimation, forKey: nil)
+            if progressDuration > 0 {
+                
+                let progressDif = abs(oldValue - progress)
+                if progressDif > 0 {
+                    let time: NSTimeInterval = NSTimeInterval(progressDuration * progressDif)
+                    let endAnimation = CABasicAnimation.createMoveAnimation(toValue: finalProgress, withDuration: time)
+                    
+                    self.progressLayer.addAnimation(endAnimation, forKey: nil)
+                }
+            } else {
+                self.progressLayer.strokeEnd = finalProgress
+            }
         }
     }
     
@@ -76,13 +83,14 @@ public class IMSCircleProgressView: UIView {
     public var startAngle: Float = IMSCircleProgressPosition.Top.rawValue {
         didSet {
             self.endAngle = kFullCircleAngle + self.startAngle
+            self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
         }
     }
     
     public var endAngle: Float = 0
-
     
-// MARK: Public Methods
+    
+    // MARK: Public Methods
     required public init?(coder aDecoder: NSCoder) {
         self.endAngle = kFullCircleAngle + self.startAngle
         
@@ -99,20 +107,20 @@ public class IMSCircleProgressView: UIView {
     convenience init(frame:CGRect, radius:CGFloat, width: CGFloat) {
         self.init(frame: frame, radius: radius, width: width, startAngle: IMSCircleProgressPosition.Top.rawValue)
     }
-
+    
     init (frame:CGRect, radius:CGFloat, width: CGFloat, startAngle: Float) {
         self.startAngle = startAngle
         self.endAngle = kFullCircleAngle + self.startAngle
         self.lineWidth = width
         self.radius = radius
-
+        
         super.init(frame: frame)
         
         self.setupCircleViewLineWidth(self.lineWidth, radius: radius)
     }
     
     
-// MARK: Private Methods
+    // MARK: Private Methods
     func setupCircleViewLineWidth(lineWidth: CGFloat, radius circleRadius: CGFloat) {
         let circlePath = self.pathForRadius(circleRadius)
         
@@ -132,7 +140,7 @@ public class IMSCircleProgressView: UIView {
         progressCircle.path = circlePath.CGPath
         progressCircle.strokeColor = progressStrokeColor.CGColor
         progressCircle.lineWidth = lineWidth
-        progressCircle.strokeEnd = self.progress
+        progressCircle.strokeEnd = self.progress * 2
         
         self.backgroundLayer.path = progressCircle.path
         self.backgroundLayer.strokeColor = self.progressBackgroundColor.CGColor
@@ -148,7 +156,7 @@ public class IMSCircleProgressView: UIView {
     }
     
     
-//    MARK: Helpers
+    //    MARK: Helpers
     private func endlessProgress(progress: CGFloat) -> CGFloat {
         let finalProgress =  min(1.0, progress)
         return max(0, finalProgress)
