@@ -40,7 +40,7 @@ public class IMSCircleProgressView: UIView {
         didSet {
             let finalProgress = self.endlessProgress(progress)
             if progressDuration > 0 {
-                
+            
                 let progressDif = abs(oldValue - progress)
                 if progressDif > 0 {
                     let time: NSTimeInterval = NSTimeInterval(progressDuration * progressDif)
@@ -140,7 +140,7 @@ public class IMSCircleProgressView: UIView {
         progressCircle.path = circlePath.CGPath
         progressCircle.strokeColor = progressStrokeColor.CGColor
         progressCircle.lineWidth = lineWidth
-        progressCircle.strokeEnd = self.progress * 2
+        progressCircle.strokeEnd = self.progress
         
         self.backgroundLayer.path = progressCircle.path
         self.backgroundLayer.strokeColor = self.progressBackgroundColor.CGColor
