@@ -17,6 +17,28 @@ public class IMSCircleRangeProgressView: IMSCircleDragProgressView {
         }
     }
     
+    //for objc usage
+    public var startRangeProgress: CGFloat {
+        get {
+            return self.rangeProgress.start
+        }
+        
+        set {
+            self.rangeProgress = (newValue, self.rangeProgress.end)
+        }
+    }
+    
+    public var endRangeProgress: CGFloat {
+        get {
+            return self.rangeProgress.end
+        }
+        
+        set {
+            self.rangeProgress = (self.rangeProgress.start, newValue)
+        }
+    }
+    //--
+    
     private(set) public var rangeButton1: UIButton!
     
     public var rangeButton1Size: CGFloat = 44 {
