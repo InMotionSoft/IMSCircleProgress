@@ -87,7 +87,11 @@ public class IMSCircleProgressView: UIView {
         }
     }
     
-    public var endAngle: Float = 0
+    public var endAngle: Float = 0 {
+        didSet {
+            self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
+        }
+    }
     
     
     // MARK: Public Methods
