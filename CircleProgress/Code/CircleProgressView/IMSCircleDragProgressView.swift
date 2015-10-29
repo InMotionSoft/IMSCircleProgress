@@ -46,6 +46,12 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
         }
     }
     
+    override public var progressClockwiseDirection: Bool {
+        didSet {
+            self.updateProgressButtonFrame()
+        }
+    }
+    
     override init(frame: CGRect, radius: CGFloat, width: CGFloat, startAngle: Float) {
         super.init(frame: frame, radius: radius, width: width, startAngle: startAngle)
         
@@ -83,7 +89,7 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
         if self.progress == 0 {
             progressButton.frame = CGRectMake(self.frame.width / 2 - progressButtonSize / 2, (self.frame.height / 2 - lineWidth) - radius,
             progressButtonSize, progressButtonSize)
-            self.progressButton.center = self.pointForAngle(self.startAngle)
+            self.progressButton.center = self.pointForAngle(self.progressClockwiseDirection ? self.startAngle : self.endAngle)
         } else {
             let angle: Float = self.angleBetweenCenterAndPoint(self.progressButton.center)
             self.progressButton.center = self.pointForAngle(angle)
@@ -104,10 +110,19 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
         let deltaY: CGFloat = location.y - previousLocation.y
         
         var newButtonCenter = CGPointMake(button.center.x + deltaX, button.center.y + deltaY)
-        let angle: Float = self.angleBetweenCenterAndPoint(newButtonCenter)
+        var angle: Float = self.angleBetweenCenterAndPoint(newButtonCenter)
         newButtonCenter = self.pointForAngle(angle)
         
+        if self.progressClockwiseDirection == false {
+            if angle < 0 && self.progress < 0.5 {
+                angle += kFullCircleAngle
+            }
+        }
+        
         var progress = self.progressForAngle(angle)
+        if self.progressClockwiseDirection == false && progress <= 1 {
+            progress = 1 - progress
+        }
         
         if CGFloat(progress) == self.progress {
             if self.shouldCrossStartPosition == false {
@@ -134,6 +149,7 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
         let R: Float = Float(self.radius)
         let newX = R * cos(angleRadiant) + Float(self.frame.width / 2)
         let newY = R * sin(angleRadiant) + Float(self.frame.height / 2)
+        
         return CGPointMake(CGFloat(newX), CGFloat(newY))
     }
     
@@ -143,9 +159,12 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
     }
     
     func progressForAngle(angle: Float) -> Float {
-        let angleForProgress = angle - self.startAngle
+        var angleForProgress = angle - self.startAngle
+        if self.progressClockwiseDirection == false {
+            angleForProgress = angle - self.startAngle
+        }
+
         let fullCircleAngle = fabsf(self.startAngle) + fabsf(self.endAngle);
-        
         var progress = angleForProgress / fullCircleAngle
         
         if progress < 0 && self.progress > 0.5 {

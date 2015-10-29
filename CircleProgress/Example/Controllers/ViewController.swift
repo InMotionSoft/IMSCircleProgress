@@ -39,8 +39,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         dragProgress.progressButton.alpha = 0.5
         dragProgress.progressButtonSize = 40
         dragProgress.progressButton.layer.cornerRadius = dragProgress.progressButtonSize / 2
-        dragProgress.startAngle = -40//IMSCircleProgressPosition.Top.rawValue
+        dragProgress.startAngle = -40 //IMSCircleProgressPosition.Top.rawValue
         dragProgress.endAngle = 220
+//        dragProgress.progressClockwiseDirection = false
 
         testDragProgress.backgroundColor = UIColor.clearColor()
         testDragProgress.radius = 140

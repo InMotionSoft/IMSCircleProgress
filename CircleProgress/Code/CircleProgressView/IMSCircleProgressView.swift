@@ -27,6 +27,11 @@ public enum IMSCircleProgressPosition: Float {
     case Bottom = 90.0
 }
 
+//public enum IMSCircleProgressDirection: Int {
+//    case FromRightToLeft = 0
+//    case FromLeftToRight = 1
+//}
+
 
 public class IMSCircleProgressView: UIView {
     
@@ -35,6 +40,12 @@ public class IMSCircleProgressView: UIView {
     let kFullCircleAngle: Float = 360.0;
     var progressLayer: CAShapeLayer!
     var backgroundLayer: CAShapeLayer!
+    
+    public var progressClockwiseDirection: Bool = true {
+        didSet {            
+            self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
+        }
+    }
     
     public var progress: CGFloat = 0.0 {
         didSet {
@@ -156,7 +167,13 @@ public class IMSCircleProgressView: UIView {
         let centerPoint = CGPoint (x: self.frame.width / 2, y: self.frame.width / 2);
         let start = startAngle * Float(M_PI) / 180.0
         let end = endAngle * Float(M_PI) / 180.0
-        return UIBezierPath(arcCenter: centerPoint, radius: radius, startAngle: CGFloat(start), endAngle: CGFloat(end), clockwise: true);
+        var path = UIBezierPath(arcCenter: centerPoint, radius: radius, startAngle: CGFloat(start), endAngle: CGFloat(end), clockwise: true)
+
+        if self.progressClockwiseDirection == false {
+            path = path.bezierPathByReversingPath()
+        }
+        
+        return path
     }
     
     
