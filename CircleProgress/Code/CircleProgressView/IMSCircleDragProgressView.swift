@@ -20,6 +20,7 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
             var buttonFame = self.progressButton.frame
             buttonFame.size = CGSizeMake(progressButtonSize, progressButtonSize)
             self.progressButton.frame = buttonFame
+            self.updateProgressButtonFrame()
         }
     }
     
