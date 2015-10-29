@@ -103,24 +103,29 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
         let deltaX: CGFloat = location.x - previousLocation.x
         let deltaY: CGFloat = location.y - previousLocation.y
         
-        button.center = CGPointMake(button.center.x + deltaX, button.center.y + deltaY)
-        let angle: Float = self.angleBetweenCenterAndPoint(button.center)
-        button.center = self.pointForAngle(angle)
+        var newButtonCenter = CGPointMake(button.center.x + deltaX, button.center.y + deltaY)
+        let angle: Float = self.angleBetweenCenterAndPoint(newButtonCenter)
+        newButtonCenter = self.pointForAngle(angle)
         
-        let angleForProgress = angle - self.startAngle
-        var progress = angleForProgress / kFullCircleAngle
+        var progress = self.progressForAngle(angle)
         
-        if progress < 0 {
-            progress = (kFullCircleAngle + angleForProgress)/kFullCircleAngle
+        if CGFloat(progress) == self.progress {
+            if self.shouldCrossStartPosition == false {
+                return
+            } else {
+                if progress > 0.5 {
+                    progress = 0
+                    newButtonCenter = self.pointForAngle(self.startAngle)
+                } else {
+                    progress = 1
+                    newButtonCenter = self.pointForAngle(self.endAngle)
+                }
+            }
         }
         
-        if self.shouldCrossStartPosition {
-            self.progress = CGFloat(progress)
-        } else {
-            limitProgressIfNeeded(CGFloat(progress), forButton: button, withAngle: angle)
-        }
+        button.center = newButtonCenter
+        self.progress = CGFloat(progress)
     }
-    
     
 //    MARK: angle & point calculation
      func pointForAngle(angle: Float) -> CGPoint {
@@ -137,27 +142,19 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
         return Float(angle * 180.0/CGFloat(M_PI))
     }
     
-    private func clampAngle(let angle : Float) -> Float {
-        let maxValue = max(angle, -kMaxAngle)
-        return min(maxValue, kMaxAngle)
-    }
-    
-    
-//    MARK: Help
-    private func limitProgressIfNeeded(progress: CGFloat, forButton button: UIButton, withAngle angle: Float) {
-        let kProgressHalf: CGFloat = 0.5
-        let kProgressAccuracy: CGFloat = 0.1
+    func progressForAngle(angle: Float) -> Float {
+        let angleForProgress = angle - self.startAngle
+        let fullCircleAngle = fabsf(self.startAngle) + fabsf(self.endAngle);
         
-        if self.progress < kProgressHalf {
-            let newAngle: Float = (progress < kProgressHalf+kProgressAccuracy) ? angle : startAngle+90
-            let newProgress: CGFloat = (progress < kProgressHalf+kProgressAccuracy) ? progress : 0
-            self.progress = newProgress
-            button.center = pointForAngle(newAngle)
-        } else {
-            let newAngle: Float = (progress > kProgressHalf-kProgressAccuracy) ? angle : endAngle+90
-            let newProgress: CGFloat = (progress > kProgressHalf-kProgressAccuracy) ? progress : 1
-            self.progress = newProgress
-            button.center = pointForAngle(newAngle)
+        var progress = angleForProgress / fullCircleAngle
+        
+        if progress < 0 && self.progress > 0.5 {
+            progress = (kFullCircleAngle + angleForProgress)/fullCircleAngle
         }
+        
+        progress = min(Float(1), Float(progress))
+        progress = max(Float(0), Float(progress))
+
+        return progress
     }
 }
