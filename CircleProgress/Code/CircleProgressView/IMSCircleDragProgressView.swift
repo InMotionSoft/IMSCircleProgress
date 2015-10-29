@@ -58,7 +58,7 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
         setupProgressButton()
         updateProgressButtonFrame()
     }
-
+    
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
@@ -66,16 +66,16 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
         updateProgressButtonFrame()
     }
     
-//    MARK: Override
+    //    MARK: Override
     override func setupCircleViewLineWidth(lineWidth: CGFloat, radius circleRadius: CGFloat) {
         super.setupCircleViewLineWidth(lineWidth, radius: circleRadius)
         
         let layer = self.progressLayer
         layer.removeAllAnimations()
     }
-
     
-//    MARK: Private
+    
+    //    MARK: Private
     func setupProgressButton() {
         progressButton = UIButton(frame: CGRectMake(self.frame.width/2-progressButtonSize/2, radius, progressButtonSize, progressButtonSize))
         progressButton.backgroundColor = UIColor.whiteColor()
@@ -88,7 +88,7 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
     func updateProgressButtonFrame() {
         if self.progress == 0 {
             progressButton.frame = CGRectMake(self.frame.width / 2 - progressButtonSize / 2, (self.frame.height / 2 - lineWidth) - radius,
-            progressButtonSize, progressButtonSize)
+                progressButtonSize, progressButtonSize)
             self.progressButton.center = self.pointForAngle(self.progressClockwiseDirection ? self.startAngle : self.endAngle)
         } else {
             let angle: Float = self.angleBetweenCenterAndPoint(self.progressButton.center)
@@ -97,13 +97,13 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
     }
     
     
-//    MARK: Events
+    //    MARK: Events
     func buttonDrag(button: UIButton, withEvent event:UIEvent) {
         
         guard let touch: UITouch = event.allTouches()?.first else {
             return
         }
-         
+        
         let previousLocation = touch.previousLocationInView(button)
         let location = touch.locationInView(button)
         let deltaX: CGFloat = location.x - previousLocation.x
@@ -117,6 +117,14 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
             if angle < 0 && self.progress < 0.5 {
                 angle += kFullCircleAngle
             }
+        }
+        
+        if ((startAngle > 0 && angle > startAngle) || (startAngle < 0 && angle < startAngle)) {
+            angle = self.startAngle
+            newButtonCenter = self.pointForAngle(angle)
+        } else if ((endAngle > 0 && angle > endAngle) || (endAngle < 0 && angle < endAngle)) {
+            angle = self.endAngle
+            newButtonCenter = self.pointForAngle(angle)
         }
         
         var progress = self.progressForAngle(angle)
@@ -142,8 +150,8 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
         self.progress = CGFloat(progress)
     }
     
-//    MARK: angle & point calculation
-     func pointForAngle(angle: Float) -> CGPoint {
+    //    MARK: angle & point calculation
+    func pointForAngle(angle: Float) -> CGPoint {
         let angleRadiant = angle * Float(M_PI) / 180.0
         
         let R: Float = Float(self.radius)
@@ -153,7 +161,7 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
         return CGPointMake(CGFloat(newX), CGFloat(newY))
     }
     
-     func angleBetweenCenterAndPoint(point: CGPoint) -> Float {
+    func angleBetweenCenterAndPoint(point: CGPoint) -> Float {
         let angle = atan2((point.y - self.frame.height / 2), (point.x - self.frame.width / 2))
         return Float(angle * 180.0/CGFloat(M_PI))
     }
@@ -163,7 +171,7 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
         if self.progressClockwiseDirection == false {
             angleForProgress = angle - self.startAngle
         }
-
+        
         let fullCircleAngle = fabsf(self.startAngle) + fabsf(self.endAngle);
         var progress = angleForProgress / fullCircleAngle
         
@@ -173,7 +181,7 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
         
         progress = min(Float(1), Float(progress))
         progress = max(Float(0), Float(progress))
-
+        
         return progress
     }
 }
