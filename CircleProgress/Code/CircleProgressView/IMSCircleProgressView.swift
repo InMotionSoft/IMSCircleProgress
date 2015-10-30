@@ -27,10 +27,9 @@ public enum IMSCircleProgressPosition: Float {
     case Bottom = 90.0
 }
 
-//public enum IMSCircleProgressDirection: Int {
-//    case FromRightToLeft = 0
-//    case FromLeftToRight = 1
-//}
+public protocol IMSCircleProgressViewDelegate: NSObjectProtocol {
+    func circleProgressView(view: IMSCircleProgressView, didChangeProgress progress: CGFloat)
+}
 
 
 public class IMSCircleProgressView: UIView {
@@ -40,6 +39,8 @@ public class IMSCircleProgressView: UIView {
     let kFullCircleAngle: Float = 360.0;
     var progressLayer: CAShapeLayer!
     var backgroundLayer: CAShapeLayer!
+    
+    public var delegate: IMSCircleProgressViewDelegate?
     
     public var progressClockwiseDirection: Bool = true {
         didSet {            
@@ -62,6 +63,8 @@ public class IMSCircleProgressView: UIView {
             } else {
                 self.progressLayer.strokeEnd = finalProgress
             }
+            
+            self.delegate?.circleProgressView(self, didChangeProgress: self.progress)
         }
     }
     
