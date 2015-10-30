@@ -27,7 +27,7 @@ public enum IMSCircleProgressPosition: Float {
     case Bottom = 90.0
 }
 
-public protocol IMSCircleProgressViewDelegate: NSObjectProtocol {
+@objc public protocol IMSCircleProgressViewDelegate: NSObjectProtocol {
     func circleProgressView(view: IMSCircleProgressView, didChangeProgress progress: CGFloat)
 }
 
