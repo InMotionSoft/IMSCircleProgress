@@ -119,7 +119,8 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
             }
         }
         
-        if fabsf(self.startAngle) + fabsf(self.endAngle) != kFullCircleAngle {
+        let fullAngle = fabsf(self.startAngle) + fabsf(self.endAngle)
+        if fullAngle != kFullCircleAngle {
             if ((startAngle > 0 && angle > startAngle) || (startAngle < 0 && angle < startAngle)) {
                 angle = self.startAngle
                 newButtonCenter = self.pointForAngle(angle)
@@ -140,10 +141,14 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
             } else {
                 if progress > 0.5 {
                     progress = 0
-                    newButtonCenter = self.pointForAngle(self.startAngle)
+                    if fullAngle != kFullCircleAngle {
+                        newButtonCenter = self.pointForAngle(self.startAngle)
+                    }
                 } else {
                     progress = 1
-                    newButtonCenter = self.pointForAngle(self.endAngle)
+                    if fullAngle != kFullCircleAngle {
+                        newButtonCenter = self.pointForAngle(self.endAngle)
+                    }
                 }
             }
         }
