@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-public class IMSCircleDragProgressView: IMSCircleProgressView {
+@objc public class IMSCircleDragProgressView: IMSCircleProgressView {
     
     public var shouldCrossStartPosition = false
     
@@ -26,6 +26,18 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
     
     var strokeStart: CGFloat = 0.0
     override public var progress: CGFloat {
+        willSet {
+            if progress == 0 {
+                let startAngle = (self.progressClockwiseDirection) ? self.startAngle : self.endAngle
+                let startPoint = self.pointForAngle(startAngle)
+                
+                if CGPointEqualToPoint(startPoint, self.progressButton.center) {
+                    let angle: Float = self.angleForProgress(newValue)
+                    self.progressButton.center = self.pointForAngle(angle)
+                }
+            }
+        }
+        
         didSet {
             self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
         }
@@ -174,11 +186,7 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
     }
     
     func progressForAngle(angle: Float) -> Float {
-        var angleForProgress = angle - self.startAngle
-        if self.progressClockwiseDirection == false {
-            angleForProgress = angle - self.startAngle
-        }
-        
+        let angleForProgress = angle - self.startAngle
         let fullCircleAngle = fabsf(self.startAngle) + fabsf(self.endAngle);
         var progress = angleForProgress / fullCircleAngle
         
@@ -190,5 +198,34 @@ public class IMSCircleDragProgressView: IMSCircleProgressView {
         progress = max(Float(0), Float(progress))
         
         return progress
+    }
+    
+    func angleForProgress(progress: CGFloat) -> Float {
+        var angle: Float = (self.progressClockwiseDirection) ? 0 : self.endAngle
+        var currentProgress: CGFloat = 0
+        let intProgress = Int(progress * 1000)
+        let fullCircleAngle = fabsf(self.startAngle) + fabsf(self.endAngle);
+        var angleStep = 0.0001 * fullCircleAngle
+        
+        while (Int(currentProgress) != intProgress) {
+            if abs(Int(currentProgress) - intProgress) > 100 {
+                angleStep = 0.1 * fullCircleAngle
+                currentProgress += 100
+            } else {
+                angleStep = 0.0001 * fullCircleAngle
+                currentProgress += 0.1
+            }
+            
+            if self.progressClockwiseDirection {
+                angle += angleStep
+            } else {
+                angle -= angleStep
+            }
+        }
+        
+        if (self.progressClockwiseDirection) {
+            angle -= 90;
+        }
+        return angle
     }
 }
