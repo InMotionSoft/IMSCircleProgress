@@ -40,6 +40,7 @@ public class IMSCircleProgressView: UIView {
     var progressLayer: CAShapeLayer!
     var backgroundLayer: CAShapeLayer!
     
+    public var animatedProgress: Bool = true
     public var delegate: IMSCircleProgressViewDelegate?
     
     public var progressClockwiseDirection: Bool = true {
@@ -51,7 +52,7 @@ public class IMSCircleProgressView: UIView {
     public var progress: CGFloat = 0.0 {
         didSet {
             let finalProgress = self.endlessProgress(progress)
-            if progressDuration > 0 {
+            if progressDuration > 0 && self.animatedProgress {
             
                 let progressDif = abs(oldValue - progress)
                 if progressDif > 0 {
