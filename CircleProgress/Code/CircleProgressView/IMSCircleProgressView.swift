@@ -182,7 +182,7 @@ public class IMSCircleProgressView: UIView {
     
     
     //    MARK: Helpers
-    private func endlessProgress(progress: CGFloat) -> CGFloat {
+    func endlessProgress(progress: CGFloat) -> CGFloat {
         let finalProgress =  min(1.0, progress)
         return max(0, finalProgress)
     }

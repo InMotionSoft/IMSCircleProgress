@@ -13,6 +13,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var testDragProgress: IMSCircleRangeProgressView!
     @IBOutlet weak var dragProgress: IMSCircleDragProgressView!
     @IBOutlet weak var circleProgress: IMSCircleProgressView!
+    @IBOutlet weak var circleDoubleProgress: IMSCircleDoubleProgressView!
     
     @IBOutlet weak var radiusTextField: UITextField!
     @IBOutlet weak var prgressTextField: UITextField!
@@ -37,14 +38,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
         dragProgress.shouldCrossStartPosition = false
         dragProgress.progressButton.backgroundColor = UIColor.whiteColor()
         dragProgress.progressButton.alpha = 0.5
-        dragProgress.progressButtonSize = 40
+        dragProgress.progressButtonSize = 30
         dragProgress.progressButton.layer.cornerRadius = dragProgress.progressButtonSize / 2
         dragProgress.startAngle = -40 //IMSCircleProgressPosition.Top.rawValue
         dragProgress.endAngle = 220
 //        dragProgress.progressClockwiseDirection = false
 
         testDragProgress.backgroundColor = UIColor.clearColor()
-        testDragProgress.radius = 140
+        testDragProgress.radius = 55
         testDragProgress.lineWidth = 6
         testDragProgress.rangeButton1.backgroundColor = UIColor.blueColor()
         testDragProgress.progressStrokeColor = UIColor.whiteColor()
@@ -52,6 +53,18 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
         testDragProgress.rangeButton2.backgroundColor = UIColor.orangeColor()
         testDragProgress.rangeButton2.layer.cornerRadius = testDragProgress.rangeButton2.frame.size.width/2
+
+        circleDoubleProgress.progressStrokeColor = UIColor.greenColor()
+        circleDoubleProgress.backgroundColor = UIColor.clearColor()
+        circleDoubleProgress.radius = 55
+        circleDoubleProgress.lineWidth = 6
+        circleDoubleProgress.shouldCrossStartPosition = false
+        circleDoubleProgress.progressButton.backgroundColor = UIColor.whiteColor()
+        circleDoubleProgress.progressButton.alpha = 0.5
+        circleDoubleProgress.progressButtonSize = 30
+        circleDoubleProgress.progressButton.layer.cornerRadius = dragProgress.progressButtonSize / 2
+        
+        circleDoubleProgress.secondProgressStrokeColor = UIColor.blueColor()
     }
     
     

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -20,7 +20,6 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v0X-tP-iaQ" customClass="IMSCircleProgressView" customModule="CircleProgress" customModuleProvider="target">
                                 <rect key="frame" x="20" y="28" width="140" height="140"/>
-                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="140" id="KK4-wu-rqt"/>
@@ -29,7 +28,6 @@
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4yE-eX-heH">
                                 <rect key="frame" x="20" y="512" width="120" height="30"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="EiN-nT-ZCx"/>
                                     <constraint firstAttribute="width" constant="120" id="lGa-YW-pKH"/>
@@ -41,7 +39,6 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="niu-cA-b5g">
                                 <rect key="frame" x="20" y="550" width="120" height="30"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="120" id="ZYb-cs-xob"/>
                                 </constraints>
@@ -52,7 +49,6 @@
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bQ0-iH-gcF">
                                 <rect key="frame" x="460" y="550" width="120" height="30"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="cSS-Kr-4I1"/>
                                     <constraint firstAttribute="width" constant="120" id="rd9-kR-9wt"/>
@@ -65,7 +61,6 @@
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bTC-WR-Aca">
                                 <rect key="frame" x="460" y="512" width="120" height="30"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="120" id="ULR-Tg-YES"/>
                                     <constraint firstAttribute="height" constant="30" id="V8c-YZ-Zuy"/>
@@ -78,7 +73,6 @@
                             </textField>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zkt-rC-nxZ" customClass="IMSCircleDragProgressView" customModule="CircleProgress" customModuleProvider="target">
                                 <rect key="frame" x="440" y="28" width="140" height="140"/>
-                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="140" id="9EV-U6-xkS"/>
@@ -86,36 +80,51 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cXP-4A-Zbb" customClass="IMSCircleRangeProgressView" customModule="CircleProgress" customModuleProvider="target">
-                                <rect key="frame" x="150" y="176" width="300" height="300"/>
-                                <animations/>
+                                <rect key="frame" x="20" y="229" width="180" height="180"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="300" id="5VY-mP-9zU"/>
-                                    <constraint firstAttribute="height" constant="300" id="zBH-Us-KG5"/>
+                                    <constraint firstAttribute="width" constant="180" id="5VY-mP-9zU"/>
+                                    <constraint firstAttribute="height" constant="180" id="zBH-Us-KG5"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ATe-AZ-V4B" customClass="IMSCircleDoubleProgressView" customModule="CircleProgress" customModuleProvider="target">
+                                <rect key="frame" x="400" y="229" width="180" height="180"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="180" id="SpF-bH-Uv8"/>
+                                    <constraint firstAttribute="width" constant="180" id="xrl-Wp-gBn"/>
                                 </constraints>
                             </view>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" red="0.37972861842105265" green="0.67547286184210531" blue="0.87482010690789458" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="niu-cA-b5g" secondAttribute="bottom" constant="20" id="1si-ts-Up5"/>
+                            <constraint firstItem="ATe-AZ-V4B" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="19" id="6nI-u1-3kJ"/>
                             <constraint firstItem="4yE-eX-heH" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="E1K-0c-2db"/>
                             <constraint firstItem="bTC-WR-Aca" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="HLp-hD-9oV"/>
                             <constraint firstItem="Zkt-rC-nxZ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="KRh-NR-4YA"/>
                             <constraint firstItem="v0X-tP-iaQ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="QNs-Kz-f8X"/>
                             <constraint firstItem="v0X-tP-iaQ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="QlQ-AE-pNl"/>
-                            <constraint firstItem="cXP-4A-Zbb" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="TGG-TA-Qlo"/>
-                            <constraint firstItem="cXP-4A-Zbb" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="26" id="ZQj-t2-kpd"/>
+                            <constraint firstItem="cXP-4A-Zbb" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="-190" id="TGG-TA-Qlo"/>
+                            <constraint firstAttribute="trailing" secondItem="ATe-AZ-V4B" secondAttribute="trailing" constant="20" id="XQV-y3-adr"/>
+                            <constraint firstItem="cXP-4A-Zbb" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="19" id="ZQj-t2-kpd"/>
                             <constraint firstItem="bQ0-iH-gcF" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="Zmn-hp-uwg"/>
                             <constraint firstItem="bQ0-iH-gcF" firstAttribute="top" secondItem="bTC-WR-Aca" secondAttribute="bottom" constant="8" id="bHm-f3-cmh"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="bQ0-iH-gcF" secondAttribute="bottom" constant="20" id="cYE-MH-6ux"/>
                             <constraint firstItem="v0X-tP-iaQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="-210" id="e4D-DN-sXo"/>
                             <constraint firstItem="niu-cA-b5g" firstAttribute="top" secondItem="4yE-eX-heH" secondAttribute="bottom" constant="8" id="hh0-92-VC1"/>
                             <constraint firstAttribute="trailing" secondItem="Zkt-rC-nxZ" secondAttribute="trailing" constant="20" id="okc-gQ-z8p"/>
+                            <constraint firstItem="cXP-4A-Zbb" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="vWh-pn-KTN"/>
                             <constraint firstItem="niu-cA-b5g" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="y0w-zk-fVc"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="TGG-TA-Qlo"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
+                        <outlet property="circleDoubleProgress" destination="ATe-AZ-V4B" id="55U-q9-7V2"/>
                         <outlet property="circleProgress" destination="v0X-tP-iaQ" id="P41-Lt-VnS"/>
                         <outlet property="dragProgress" destination="Zkt-rC-nxZ" id="XvJ-OF-aUT"/>
                         <outlet property="prgressTextField" destination="bQ0-iH-gcF" id="PD0-uP-CEo"/>
