@@ -13,7 +13,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var testDragProgress: IMSCircleRangeProgressView!
     @IBOutlet weak var dragProgress: IMSCircleDragProgressView!
     @IBOutlet weak var circleProgress: IMSCircleProgressView!
-    @IBOutlet weak var circleDoubleProgress: IMSCircleDoubleProgressView!
+    @IBOutlet weak var circleDoubleProgress: IMSCircleDoubleDragProgressView!
     
     @IBOutlet weak var radiusTextField: UITextField!
     @IBOutlet weak var prgressTextField: UITextField!
