@@ -58,12 +58,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
         circleDoubleProgress.backgroundColor = UIColor.clearColor()
         circleDoubleProgress.radius = 55
         circleDoubleProgress.lineWidth = 6
-        circleDoubleProgress.shouldCrossStartPosition = false
+        circleDoubleProgress.shouldCrossStartPosition = true
         circleDoubleProgress.progressButton.backgroundColor = UIColor.whiteColor()
         circleDoubleProgress.progressButton.alpha = 0.5
         circleDoubleProgress.progressButtonSize = 30
         circleDoubleProgress.progressButton.layer.cornerRadius = dragProgress.progressButtonSize / 2
         
+        circleDoubleProgress.animatedProgress = false
         circleDoubleProgress.secondProgressStrokeColor = UIColor.blueColor()
     }
     

@@ -57,6 +57,7 @@ import UIKit
                 }
             } else {
                 self.secondProgressLayer.strokeEnd = finalProgress
+                self.secondProgressLayer.removeAllAnimations()
             }
             
             self.secondProgressDelegate?.circleDoubleProgressView(self, didChangeSecondProgress: secondProgress)
@@ -150,14 +151,15 @@ import UIKit
                     }
                 } else {
                     progress = 1
+                    self.firstProgress = 1
+                    self.currentProgressIsSecond = true
+                    
                     if fullAngle != kFullCircleAngle {
                         newButtonCenter = self.pointForAngle(self.endAngle)
                     }
                 }
             }
         }
-        
-        button.center = newButtonCenter
         
         if progress >= 0 && progress < 0.1 {
             if self.currentProgressIsSecond == false {
@@ -166,11 +168,26 @@ import UIKit
                     self.currentProgressIsSecond = true
                 }
             } else if self.firstProgress == 1 && self.secondProgress >= 0.9 {
+                
+                if self.shouldCrossStartPosition {
                     self.currentProgressIsSecond = false
                     self.firstProgress = 0
                     self.secondProgress = 0
+                } else {
+                    self.firstProgress = 1
+                    self.secondProgress = 1
+                    newButtonCenter = self.pointForAngle(self.endAngle)
+                    button.center = newButtonCenter
+                    return
+                }
+            } else if progress == 0 && self.currentProgressIsSecond {
+                self.secondProgress = 0
+                self.currentProgressIsSecond = false
+                progress = 1
             }
         }
+        
+        button.center = newButtonCenter
         
         if self.currentProgressIsSecond {
             self.secondProgress = CGFloat(progress)

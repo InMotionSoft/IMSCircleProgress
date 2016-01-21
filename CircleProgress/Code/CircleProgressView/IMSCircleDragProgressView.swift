@@ -39,7 +39,6 @@ import UIKit
         }
         
         didSet {
-            print("progress: \(self.progress)")
             self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
         }
     }
