@@ -10,15 +10,15 @@ import Foundation
 import UIKit
 
 
-@objc public protocol IMSCircleDoubleProgressViewDelegate: NSObjectProtocol {
+@objc public protocol IMSCircleDoubleDragProgressViewDelegate: NSObjectProtocol {
     func circleDoubleProgressView(view: IMSCircleProgressView, didChangeSecondProgress progress: CGFloat)
 }
 
 
-@objc public class IMSCircleDoubleProgressView: IMSCircleDragProgressView {
+@objc public class IMSCircleDoubleDragProgressView: IMSCircleDragProgressView {
  
     var secondProgressLayer: CAShapeLayer!
-    public var secondProgressDelegate: IMSCircleDoubleProgressViewDelegate?
+    public var secondProgressDelegate: IMSCircleDoubleDragProgressViewDelegate?
     var currentProgressIsSecond: Bool = false
     
     public var secondProgressStrokeColor = UIColor.whiteColor() {
