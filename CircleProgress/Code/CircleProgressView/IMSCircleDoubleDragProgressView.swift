@@ -19,7 +19,7 @@ import UIKit
  
     var secondProgressLayer: CAShapeLayer!
     public var secondProgressDelegate: IMSCircleDoubleDragProgressViewDelegate?
-    var currentProgressIsSecond: Bool = false
+    private var currentProgressIsSecond: Bool = false
     
     public var secondProgressStrokeColor = UIColor.whiteColor() {
         didSet {
@@ -37,7 +37,7 @@ import UIKit
         }
     }
     
-    private var currentProgress: CGFloat {
+    var currentProgress: CGFloat {
         get {
             return (self.currentProgressIsSecond) ? self.secondProgress : self.firstProgress
         }

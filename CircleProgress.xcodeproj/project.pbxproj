@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5078C93A1C50FE7E00A32DCE /* IMSCircleDoubleProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5078C9391C50FE7E00A32DCE /* IMSCircleDoubleProgressView.swift */; };
 		50ABCBB31C4F842D00F66124 /* IMSCircleDoubleDragProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ABCBB21C4F842D00F66124 /* IMSCircleDoubleDragProgressView.swift */; };
 		6B2C519C1BC51996009B4691 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B2C51981BC51996009B4691 /* ViewController.swift */; };
 		6B2C51A21BC51A00009B4691 /* IMSCircleDragProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B2C519F1BC51A00009B4691 /* IMSCircleDragProgressView.swift */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5078C9391C50FE7E00A32DCE /* IMSCircleDoubleProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMSCircleDoubleProgressView.swift; sourceTree = "<group>"; };
 		50ABCBB21C4F842D00F66124 /* IMSCircleDoubleDragProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMSCircleDoubleDragProgressView.swift; sourceTree = "<group>"; };
 		6B2C51981BC51996009B4691 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		6B2C519F1BC51A00009B4691 /* IMSCircleDragProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMSCircleDragProgressView.swift; sourceTree = "<group>"; };
@@ -59,6 +61,7 @@
 				6B2C51A01BC51A00009B4691 /* IMSCircleProgressView.swift */,
 				6B2C51A11BC51A00009B4691 /* IMSCircleRangeProgressView.swift */,
 				50ABCBB21C4F842D00F66124 /* IMSCircleDoubleDragProgressView.swift */,
+				5078C9391C50FE7E00A32DCE /* IMSCircleDoubleProgressView.swift */,
 			);
 			path = CircleProgressView;
 			sourceTree = "<group>";
@@ -186,6 +189,7 @@
 				6B2C519C1BC51996009B4691 /* ViewController.swift in Sources */,
 				6B865D4B1BB28A3E002C7516 /* AppDelegate.swift in Sources */,
 				6B2C51A41BC51A00009B4691 /* IMSCircleRangeProgressView.swift in Sources */,
+				5078C93A1C50FE7E00A32DCE /* IMSCircleDoubleProgressView.swift in Sources */,
 				6B2C51A21BC51A00009B4691 /* IMSCircleDragProgressView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

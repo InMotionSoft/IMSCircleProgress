@@ -12,7 +12,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var testDragProgress: IMSCircleRangeProgressView!
     @IBOutlet weak var dragProgress: IMSCircleDragProgressView!
-    @IBOutlet weak var circleProgress: IMSCircleProgressView!
+    @IBOutlet weak var circleProgress: IMSCircleDoubleProgressView!
     @IBOutlet weak var circleDoubleProgress: IMSCircleDoubleDragProgressView!
     
     @IBOutlet weak var radiusTextField: UITextField!
@@ -25,11 +25,15 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func setupCircleProgress() {
-                
+        
+        
         circleProgress.backgroundColor = UIColor.clearColor()
         circleProgress.radius = 55
         circleProgress.lineWidth = 8
         circleProgress.progressStrokeColor = UIColor.orangeColor()
+        circleProgress.secondProgressStrokeColor = UIColor.blueColor()
+        circleProgress.progress = 0
+        
         
         dragProgress.progressStrokeColor = UIColor.greenColor()
         dragProgress.backgroundColor = UIColor.clearColor()
@@ -44,6 +48,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         dragProgress.endAngle = 220
 //        dragProgress.progressClockwiseDirection = false
 
+        
         testDragProgress.backgroundColor = UIColor.clearColor()
         testDragProgress.radius = 55
         testDragProgress.lineWidth = 6
@@ -54,6 +59,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         testDragProgress.rangeButton2.backgroundColor = UIColor.orangeColor()
         testDragProgress.rangeButton2.layer.cornerRadius = testDragProgress.rangeButton2.frame.size.width/2
 
+        
         circleDoubleProgress.progressStrokeColor = UIColor.greenColor()
         circleDoubleProgress.backgroundColor = UIColor.clearColor()
         circleDoubleProgress.radius = 55
