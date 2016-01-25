@@ -16,7 +16,7 @@ import UIKit
 
 
 @objc public class IMSCircleDoubleDragProgressView: IMSCircleDragProgressView {
- 
+    
     var secondProgressLayer: CAShapeLayer!
     public var secondProgressDelegate: IMSCircleDoubleDragProgressViewDelegate?
     private var currentProgressIsSecond: Bool = false
@@ -44,6 +44,21 @@ import UIKit
     }
     
     public var secondProgress: CGFloat = 0.0 {
+        willSet {
+            if secondProgress == 0 {
+                let startAngle = (self.progressClockwiseDirection) ? self.startAngle : self.endAngle
+                let anglePoint = self.pointForAngle(startAngle)
+                let startPoint = CGPointMake(CGFloat(NSInteger(anglePoint.x)), CGFloat(NSInteger(anglePoint.y)))
+                let buttonPoint = CGPointMake(CGFloat(NSInteger(self.progressButton.center.x)), CGFloat(NSInteger(self.progressButton.center.y)))
+                
+                if CGPointEqualToPoint(startPoint, buttonPoint) {
+                    let angle: Float = self.angleForProgress(newValue)
+                    self.progressButton.center = self.pointForAngle(angle)
+                }
+                self.currentProgressIsSecond = true
+            }
+        }
+        
         didSet {
             let finalProgress = self.endlessProgress(secondProgress)
             if progressDuration > 0 && self.animatedProgress {

@@ -35,14 +35,14 @@ import UIKit
             self.firstProgressLayer.removeAllAnimations()
             
             let finalProgress = self.endlessProgress(progress)
-                if finalProgress > 0.5 {
-                    self.firstProgressLayer.strokeEnd = 1
-                    self.secondProgressLayer.strokeEnd = (finalProgress - 0.5) * 2
-                } else {
-                    self.secondProgressLayer.strokeEnd = 0
-                    self.firstProgressLayer.strokeEnd = finalProgress * 2
-                    self.secondProgressLayer.removeAllAnimations()
-                }
+            if finalProgress > 0.5 {
+                self.firstProgressLayer.strokeEnd = 1
+                self.secondProgressLayer.strokeEnd = (finalProgress - 0.5) * 2
+            } else {
+                self.secondProgressLayer.strokeEnd = 0
+                self.firstProgressLayer.strokeEnd = finalProgress * 2
+                self.secondProgressLayer.removeAllAnimations()
+            }
             self.delegate?.circleProgressView(self, didChangeProgress: self.progress)
         }
 
