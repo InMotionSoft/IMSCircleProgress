@@ -24,23 +24,23 @@ class ViewController: UIViewController, UITextFieldDelegate {
         setupCircleProgress()
     }
     
-    private func setupCircleProgress() {
+    fileprivate func setupCircleProgress() {
         
         
-        circleProgress.backgroundColor = UIColor.clearColor()
+        circleProgress.backgroundColor = UIColor.clear
         circleProgress.radius = 55
         circleProgress.lineWidth = 8
-        circleProgress.progressStrokeColor = UIColor.orangeColor()
-        circleProgress.secondProgressStrokeColor = UIColor.blueColor()
+        circleProgress.progressStrokeColor = UIColor.orange
+        circleProgress.secondProgressStrokeColor = UIColor.blue
         circleProgress.progress = 0
         
         
-        dragProgress.progressStrokeColor = UIColor.greenColor()
-        dragProgress.backgroundColor = UIColor.clearColor()
+        dragProgress.progressStrokeColor = UIColor.green
+        dragProgress.backgroundColor = UIColor.clear
         dragProgress.radius = 55
         dragProgress.lineWidth = 6
         dragProgress.shouldCrossStartPosition = false
-        dragProgress.progressButton.backgroundColor = UIColor.whiteColor()
+        dragProgress.progressButton.backgroundColor = UIColor.white
         dragProgress.progressButton.alpha = 0.5
         dragProgress.progressButtonSize = 30
         dragProgress.progressButton.layer.cornerRadius = dragProgress.progressButtonSize / 2
@@ -49,59 +49,59 @@ class ViewController: UIViewController, UITextFieldDelegate {
 //        dragProgress.progressClockwiseDirection = false
 
         
-        testDragProgress.backgroundColor = UIColor.clearColor()
+        testDragProgress.backgroundColor = UIColor.clear
         testDragProgress.radius = 55
         testDragProgress.lineWidth = 6
-        testDragProgress.rangeButton1.backgroundColor = UIColor.blueColor()
-        testDragProgress.progressStrokeColor = UIColor.whiteColor()
+        testDragProgress.rangeButton1.backgroundColor = UIColor.blue
+        testDragProgress.progressStrokeColor = UIColor.white
         testDragProgress.rangeButton1.layer.cornerRadius = testDragProgress.rangeButton1.frame.size.width/2
 
-        testDragProgress.rangeButton2.backgroundColor = UIColor.orangeColor()
+        testDragProgress.rangeButton2.backgroundColor = UIColor.orange
         testDragProgress.rangeButton2.layer.cornerRadius = testDragProgress.rangeButton2.frame.size.width/2
 
         
-        circleDoubleProgress.progressStrokeColor = UIColor.greenColor()
-        circleDoubleProgress.backgroundColor = UIColor.clearColor()
+        circleDoubleProgress.progressStrokeColor = UIColor.green
+        circleDoubleProgress.backgroundColor = UIColor.clear
         circleDoubleProgress.radius = 55
         circleDoubleProgress.lineWidth = 6
         circleDoubleProgress.shouldCrossStartPosition = true
-        circleDoubleProgress.progressButton.backgroundColor = UIColor.whiteColor()
+        circleDoubleProgress.progressButton.backgroundColor = UIColor.white
         circleDoubleProgress.progressButton.alpha = 0.5
         circleDoubleProgress.progressButtonSize = 30
         circleDoubleProgress.progressButton.layer.cornerRadius = dragProgress.progressButtonSize / 2
         
         circleDoubleProgress.animatedProgress = false
-        circleDoubleProgress.secondProgressStrokeColor = UIColor.blueColor()
+        circleDoubleProgress.secondProgressStrokeColor = UIColor.blue
     }
     
     
 //    MARK: UITextFieldDelegate
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
     
     
 //    MARK: Actions
-    @IBAction func changeProgress(sender: AnyObject) {
+    @IBAction func changeProgress(_ sender: AnyObject) {
         
         if let progressText = prgressTextField.text {
-            let numberFormatter = NSNumberFormatter()
-            if let number = numberFormatter.numberFromString(progressText) {
+            let numberFormatter = NumberFormatter()
+            if let number = numberFormatter.number(from: progressText) {
                 circleProgress.progress = CGFloat(number.floatValue)
             }
         }
     }
     
-    @IBAction func changeRadius(sender: AnyObject) {
+    @IBAction func changeRadius(_ sender: AnyObject) {
         
         guard let radiusText = radiusTextField.text else {
             return
         }
         
-        let numberFormatter = NSNumberFormatter()
+        let numberFormatter = NumberFormatter()
         
-        if let number = numberFormatter.numberFromString(radiusText) {
+        if let number = numberFormatter.number(from: radiusText) {
             self.circleProgress.radius = CGFloat(number.floatValue)
             self.dragProgress.radius = CGFloat(number.floatValue)
             self.testDragProgress.radius = CGFloat(number.floatValue)

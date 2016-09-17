@@ -9,16 +9,16 @@
 import Foundation
 import UIKit
 
-public class IMSCircleRangeProgressView: IMSCircleDragProgressView {
+open class IMSCircleRangeProgressView: IMSCircleDragProgressView {
     
-    public var rangeProgress: (start: CGFloat, end: CGFloat) = (0.0, 0.0) {
+    open var rangeProgress: (start: CGFloat, end: CGFloat) = (0.0, 0.0) {
         didSet {
             self.updateProgressLayer()
         }
     }
     
     //for objc usage
-    public var startRangeProgress: CGFloat {
+    open var startRangeProgress: CGFloat {
         get {
             return self.rangeProgress.start
         }
@@ -28,7 +28,7 @@ public class IMSCircleRangeProgressView: IMSCircleDragProgressView {
         }
     }
     
-    public var endRangeProgress: CGFloat {
+    open var endRangeProgress: CGFloat {
         get {
             return self.rangeProgress.end
         }
@@ -39,31 +39,31 @@ public class IMSCircleRangeProgressView: IMSCircleDragProgressView {
     }
     //--
     
-    private(set) public var rangeButton1: UIButton!
+    fileprivate(set) open var rangeButton1: UIButton!
     
-    public var rangeButton1Size: CGFloat = 44 {
+    open var rangeButton1Size: CGFloat = 44 {
         didSet {
             var buttonFame = self.rangeButton1.frame
-            buttonFame.size = CGSizeMake(rangeButton1Size, rangeButton1Size)
+            buttonFame.size = CGSize(width: rangeButton1Size, height: rangeButton1Size)
             self.rangeButton1.frame = buttonFame
         }
     }
     
-    public var rangeButton2: UIButton! {
+    open var rangeButton2: UIButton! {
         get {
             return self.progressButton
         }
     }
     
-    public var rangeButton2Size: CGFloat = 44 {
+    open var rangeButton2Size: CGFloat = 44 {
         didSet {
             var buttonFame = self.rangeButton2.frame
-            buttonFame.size = CGSizeMake(rangeButton2Size, rangeButton2Size)
+            buttonFame.size = CGSize(width: rangeButton2Size, height: rangeButton2Size)
             self.rangeButton2.frame = buttonFame
         }
     }
     
-    override public var progressButtonSize: CGFloat {
+    override open var progressButtonSize: CGFloat {
         get {
             return self.rangeButton1Size
         }
@@ -87,8 +87,8 @@ public class IMSCircleRangeProgressView: IMSCircleDragProgressView {
         super.updateProgressButtonFrame()
         
         if self.rangeProgress.start == 0 && self.rangeProgress.end == 0 {
-            rangeButton1.frame = CGRectMake(self.frame.width / 2 - rangeButton1Size / 2, (self.frame.height / 2 - lineWidth) - radius,
-                rangeButton1Size, rangeButton1Size)
+            rangeButton1.frame = CGRect(x: self.frame.width / 2 - rangeButton1Size / 2, y: (self.frame.height / 2 - lineWidth) - radius,
+                width: rangeButton1Size, height: rangeButton1Size)
             self.rangeButton1.center = self.pointForAngle(self.startAngle)
         } else {
             let angle: Float = self.angleBetweenCenterAndPoint(self.rangeButton1.center)
@@ -98,19 +98,19 @@ public class IMSCircleRangeProgressView: IMSCircleDragProgressView {
         self.updateProgressLayer()
     }
     
-    override func buttonDrag(button: UIButton, withEvent event:UIEvent) {
+    override func buttonDrag(_ button: UIButton, withEvent event:UIEvent) {
 
         var angle: Float = self.angleBetweenCenterAndPoint(button.center)
-        guard let touch: UITouch = event.allTouches()?.first else {
+        guard let touch: UITouch = event.allTouches?.first else {
             return
         }
         
-        let previousLocation = touch.previousLocationInView(button)
-        let location = touch.locationInView(button)
+        let previousLocation = touch.previousLocation(in: button)
+        let location = touch.location(in: button)
         let deltaX: CGFloat = location.x - previousLocation.x
         let deltaY: CGFloat = location.y - previousLocation.y
         
-        button.center = CGPointMake(button.center.x + deltaX, button.center.y + deltaY)
+        button.center = CGPoint(x: button.center.x + deltaX, y: button.center.y + deltaY)
         angle = self.angleBetweenCenterAndPoint(button.center)
         button.center = self.pointForAngle(angle)
 
@@ -120,18 +120,18 @@ public class IMSCircleRangeProgressView: IMSCircleDragProgressView {
     override func setupProgressButton() {
         super.setupProgressButton()
         
-        rangeButton1 = UIButton(frame: CGRectMake(self.frame.width / 2 - self.rangeButton1Size / 2, self.radius,
-            self.rangeButton1Size, self.rangeButton1Size))
-        rangeButton1.addTarget(self, action: "buttonDrag:withEvent:", forControlEvents: UIControlEvents.TouchDragInside)
-        rangeButton1.addTarget(self, action: "buttonDrag:withEvent:", forControlEvents: UIControlEvents.TouchDragOutside)
-        rangeButton1.backgroundColor = UIColor.whiteColor()
+        rangeButton1 = UIButton(frame: CGRect(x: self.frame.width / 2 - self.rangeButton1Size / 2, y: self.radius,
+            width: self.rangeButton1Size, height: self.rangeButton1Size))
+        rangeButton1.addTarget(self, action: "buttonDrag:withEvent:", for: UIControlEvents.touchDragInside)
+        rangeButton1.addTarget(self, action: "buttonDrag:withEvent:", for: UIControlEvents.touchDragOutside)
+        rangeButton1.backgroundColor = UIColor.white
         
         self.insertSubview(rangeButton1, belowSubview: self.rangeButton2)
     }
 
     
 //    MARK: Help Methods
-    private func calculateProgressForButton(button: UIButton) -> CGFloat {
+    fileprivate func calculateProgressForButton(_ button: UIButton) -> CGFloat {
         let angle: Float = self.angleBetweenCenterAndPoint(button.center)
         let angleForProgress = angle - self.startAngle
         var progress = angleForProgress / kFullCircleAngle
@@ -143,14 +143,14 @@ public class IMSCircleRangeProgressView: IMSCircleDragProgressView {
         return CGFloat(progress)
     }
     
-    private func updateProgressLayer() {
+    fileprivate func updateProgressLayer() {
         let progressCircle = self.progressLayer
-        progressCircle.strokeStart = min(self.rangeProgress.start, self.rangeProgress.end)
-        progressCircle.strokeEnd   = max(self.rangeProgress.start, self.rangeProgress.end)
-        progressCircle.removeAllAnimations()
+        progressCircle?.strokeStart = min(self.rangeProgress.start, self.rangeProgress.end)
+        progressCircle?.strokeEnd   = max(self.rangeProgress.start, self.rangeProgress.end)
+        progressCircle?.removeAllAnimations()
     }
     
-    private func updateRangeProgress() {
+    fileprivate func updateRangeProgress() {
         let potencialStart = self.calculateProgressForButton(self.rangeButton1)
         let potencialEnd   = self.calculateProgressForButton(self.rangeButton2)
         

@@ -10,16 +10,16 @@ import Foundation
 import UIKit
 
 
-@objc public class IMSCircleDoubleProgressView: IMSCircleProgressView {
+@objc open class IMSCircleDoubleProgressView: IMSCircleProgressView {
     var secondProgressLayer: CAShapeLayer!
     
-    public var secondProgressStrokeColor = UIColor.whiteColor() {
+    open var secondProgressStrokeColor = UIColor.white {
         didSet {
             self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
         }
     }
     
-    public var firstProgressLayer: CAShapeLayer {
+    open var firstProgressLayer: CAShapeLayer {
         get {
             return self.progressLayer
         }
@@ -30,7 +30,7 @@ import UIKit
     }
     
     // <= 0.5 is first circle, > 0.5 is second
-    override public var progress: CGFloat {
+    override open var progress: CGFloat {
         didSet {
             self.firstProgressLayer.removeAllAnimations()
             
@@ -48,24 +48,24 @@ import UIKit
 
     }
     
-    private var currentProgressLayer: CAShapeLayer! {
+    fileprivate var currentProgressLayer: CAShapeLayer! {
         get {
             return (self.progress > 0.5) ? self.secondProgressLayer : self.progressLayer
         }
     }
     
-    override func setupCircleViewLineWidth(lineWidth: CGFloat, radius circleRadius: CGFloat) {
+    override func setupCircleViewLineWidth(_ lineWidth: CGFloat, radius circleRadius: CGFloat) {
         super.setupCircleViewLineWidth(lineWidth, radius: radius)
         
         let circlePath = self.pathForRadius(circleRadius)
         if self.secondProgressLayer == nil {
             self.secondProgressLayer = CAShapeLayer()
-            self.secondProgressLayer.fillColor = UIColor.clearColor().CGColor
+            self.secondProgressLayer.fillColor = UIColor.clear.cgColor
             self.layer.addSublayer(self.secondProgressLayer)
         }
         
-        self.secondProgressLayer.path = circlePath.CGPath
-        self.secondProgressLayer.strokeColor = self.secondProgressStrokeColor.CGColor
+        self.secondProgressLayer.path = circlePath.cgPath
+        self.secondProgressLayer.strokeColor = self.secondProgressStrokeColor.cgColor
         self.secondProgressLayer.lineWidth = lineWidth
         self.secondProgressLayer.strokeEnd = (self.progress > 0.5) ? self.progress : 0
         

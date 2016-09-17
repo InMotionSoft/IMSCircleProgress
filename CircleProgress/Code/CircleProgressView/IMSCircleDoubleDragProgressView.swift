@@ -11,23 +11,23 @@ import UIKit
 
 
 @objc public protocol IMSCircleDoubleDragProgressViewDelegate: NSObjectProtocol {
-    func circleDoubleProgressView(view: IMSCircleProgressView, didChangeSecondProgress progress: CGFloat)
+    func circleDoubleProgressView(_ view: IMSCircleProgressView, didChangeSecondProgress progress: CGFloat)
 }
 
 
-@objc public class IMSCircleDoubleDragProgressView: IMSCircleDragProgressView {
+@objc open class IMSCircleDoubleDragProgressView: IMSCircleDragProgressView {
     
     var secondProgressLayer: CAShapeLayer!
-    public var secondProgressDelegate: IMSCircleDoubleDragProgressViewDelegate?
-    private var currentProgressIsSecond: Bool = false
+    open var secondProgressDelegate: IMSCircleDoubleDragProgressViewDelegate?
+    fileprivate var currentProgressIsSecond: Bool = false
     
-    public var secondProgressStrokeColor = UIColor.whiteColor() {
+    open var secondProgressStrokeColor = UIColor.white {
         didSet {
             self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
         }
     }
     
-    public var firstProgress: CGFloat {
+    open var firstProgress: CGFloat {
         get {
             return self.progress
         }
@@ -43,15 +43,15 @@ import UIKit
         }
     }
     
-    public var secondProgress: CGFloat = 0.0 {
+    open var secondProgress: CGFloat = 0.0 {
         willSet {
             if secondProgress == 0 {
                 let startAngle = (self.progressClockwiseDirection) ? self.startAngle : self.endAngle
                 let anglePoint = self.pointForAngle(startAngle)
-                let startPoint = CGPointMake(CGFloat(NSInteger(anglePoint.x)), CGFloat(NSInteger(anglePoint.y)))
-                let buttonPoint = CGPointMake(CGFloat(NSInteger(self.progressButton.center.x)), CGFloat(NSInteger(self.progressButton.center.y)))
+                let startPoint = CGPoint(x: CGFloat(NSInteger(anglePoint.x)), y: CGFloat(NSInteger(anglePoint.y)))
+                let buttonPoint = CGPoint(x: CGFloat(NSInteger(self.progressButton.center.x)), y: CGFloat(NSInteger(self.progressButton.center.y)))
                 
-                if CGPointEqualToPoint(startPoint, buttonPoint) {
+                if startPoint.equalTo(buttonPoint) {
                     let angle: Float = self.angleForProgress(newValue)
                     self.progressButton.center = self.pointForAngle(angle)
                 }
@@ -65,10 +65,10 @@ import UIKit
                 
                 let progressDif = abs(oldValue - secondProgress)
                 if progressDif > 0 {
-                    let time: NSTimeInterval = NSTimeInterval(progressDuration * progressDif)
+                    let time: TimeInterval = TimeInterval(progressDuration * progressDif)
                     let endAnimation = CABasicAnimation.createMoveAnimation(toValue: finalProgress, withDuration: time)
                     
-                    self.secondProgressLayer.addAnimation(endAnimation, forKey: nil)
+                    self.secondProgressLayer.add(endAnimation, forKey: nil)
                 }
             } else {
                 self.secondProgressLayer.strokeEnd = finalProgress
@@ -79,27 +79,27 @@ import UIKit
         }
     }
     
-    override func setupCircleViewLineWidth(lineWidth: CGFloat, radius circleRadius: CGFloat) {
+    override func setupCircleViewLineWidth(_ lineWidth: CGFloat, radius circleRadius: CGFloat) {
         super.setupCircleViewLineWidth(lineWidth, radius: radius)
         
         let circlePath = self.pathForRadius(circleRadius)
         
         if self.secondProgressLayer == nil {
             self.secondProgressLayer = CAShapeLayer()
-            self.secondProgressLayer.fillColor = UIColor.clearColor().CGColor
+            self.secondProgressLayer.fillColor = UIColor.clear.cgColor
             self.layer.addSublayer(self.secondProgressLayer)
         }
         
-        self.secondProgressLayer.path = circlePath.CGPath
-        self.secondProgressLayer.strokeColor = self.secondProgressStrokeColor.CGColor
+        self.secondProgressLayer.path = circlePath.cgPath
+        self.secondProgressLayer.strokeColor = self.secondProgressStrokeColor.cgColor
         self.secondProgressLayer.lineWidth = lineWidth
         self.secondProgressLayer.strokeEnd = self.secondProgress
         
         let layer = self.secondProgressLayer
-        layer.removeAllAnimations()
+        layer?.removeAllAnimations()
     }
     
-    func progressForAngle(angle: Float, currentProgress: Float) -> Float {
+    func progressForAngle(_ angle: Float, currentProgress: Float) -> Float {
         let angleForProgress = angle - self.startAngle
         
         let fullCircleAngle = fabsf(self.startAngle) + fabsf(self.endAngle);
@@ -117,18 +117,18 @@ import UIKit
     
     
     //    MARK: Events
-    override func buttonDrag(button: UIButton, withEvent event:UIEvent) {
+    override func buttonDrag(_ button: UIButton, withEvent event:UIEvent) {
         
-        guard let touch: UITouch = event.allTouches()?.first else {
+        guard let touch: UITouch = event.allTouches?.first else {
             return
         }
         
-        let previousLocation = touch.previousLocationInView(button)
-        let location = touch.locationInView(button)
+        let previousLocation = touch.previousLocation(in: button)
+        let location = touch.location(in: button)
         let deltaX: CGFloat = location.x - previousLocation.x
         let deltaY: CGFloat = location.y - previousLocation.y
         
-        var newButtonCenter = CGPointMake(button.center.x + deltaX, button.center.y + deltaY)
+        var newButtonCenter = CGPoint(x: button.center.x + deltaX, y: button.center.y + deltaY)
         var angle: Float = self.angleBetweenCenterAndPoint(newButtonCenter)
         newButtonCenter = self.pointForAngle(angle)
         
