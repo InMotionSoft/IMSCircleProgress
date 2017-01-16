@@ -75,6 +75,12 @@ open class IMSCircleProgressView: UIView {
         }
     }
     
+    open var progressStrokeWithRoundCorner = false {
+        didSet {
+            self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
+        }
+    }
+    
     open var progressBackgroundColor = UIColor.gray {
         didSet {
             self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
@@ -160,6 +166,12 @@ open class IMSCircleProgressView: UIView {
         progressCircle?.strokeColor = progressStrokeColor.cgColor
         progressCircle?.lineWidth = lineWidth
         progressCircle?.strokeEnd = self.progress
+        
+        if self.progressStrokeWithRoundCorner {
+            progressCircle?.lineCap = kCALineCapRound
+        } else {
+            progressCircle?.lineCap = kCALineCapButt
+        }
         
         self.backgroundLayer.path = progressCircle?.path
         self.backgroundLayer.strokeColor = self.progressBackgroundColor.cgColor

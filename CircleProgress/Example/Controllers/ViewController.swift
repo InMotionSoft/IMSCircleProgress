@@ -33,6 +33,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         circleProgress.progressStrokeColor = UIColor.orange
         circleProgress.secondProgressStrokeColor = UIColor.blue
         circleProgress.progress = 0
+        circleProgress.progressStrokeWithRoundCorner = true
         
         
         dragProgress.progressStrokeColor = UIColor.green
