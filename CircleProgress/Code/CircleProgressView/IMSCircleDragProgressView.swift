@@ -43,6 +43,12 @@ import UIKit
         }
     }
     
+    open func setProgressAndUpdateButtonPosition(_ progress: CGFloat) {
+        self.progress = max(min(1, progress), 0)
+        let angle: Float = self.angleForProgress(self.progress)
+        self.progressButton.center = self.pointForAngle(angle)
+    }
+    
     override open var radius: CGFloat {
         didSet {
             self.updateProgressButtonFrame()
@@ -100,7 +106,7 @@ import UIKit
     func updateProgressButtonFrame() {
         if self.progress == 0 {
             progressButton.frame = CGRect(x: self.frame.width / 2 - progressButtonSize / 2, y: (self.frame.height / 2 - lineWidth) - radius,
-                width: progressButtonSize, height: progressButtonSize)
+                                          width: progressButtonSize, height: progressButtonSize)
             self.progressButton.center = self.pointForAngle(self.progressClockwiseDirection ? self.startAngle : self.endAngle)
         } else {
             let angle: Float = self.angleBetweenCenterAndPoint(self.progressButton.center)
@@ -201,13 +207,20 @@ import UIKit
     }
     
     func angleForProgress(_ progress: CGFloat) -> Float {
-        var angle: Float = (self.progressClockwiseDirection) ? 0 : self.endAngle
+        
+        let correctionAngle: Float = 90;
+        let correctedStartAngle = self.startAngle + correctionAngle
+        let correctedEndAngle = self.endAngle + correctionAngle
+        
+        var angle: Float = (self.progressClockwiseDirection) ? correctedStartAngle : correctedEndAngle
+        
         var currentProgress: CGFloat = 0
         let intProgress = Int(progress * 1000)
-        let fullCircleAngle = fabsf(self.startAngle) + fabsf(self.endAngle);
-        var angleStep = 0.0001 * fullCircleAngle
+        let fullCircleAngle = kFullCircleAngle - fabsf(correctedStartAngle - correctedEndAngle)
         
+        var angleStep = 0.0001 * fullCircleAngle
         while (Int(currentProgress) != intProgress) {
+            
             if abs(Int(currentProgress) - intProgress) > 100 {
                 angleStep = 0.1 * fullCircleAngle
                 currentProgress += 100
@@ -223,9 +236,7 @@ import UIKit
             }
         }
         
-        if (self.progressClockwiseDirection) {
-            angle -= 90;
-        }
+        angle -= correctionAngle
         return angle
     }
 }
