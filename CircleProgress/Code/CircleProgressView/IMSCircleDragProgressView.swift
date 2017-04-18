@@ -177,7 +177,7 @@ import UIKit
     
     //    MARK: angle & point calculation
     func pointForAngle(_ angle: Float) -> CGPoint {
-        let angleRadiant = angle * Float(M_PI) / 180.0
+        let angleRadiant = angle * Float.pi / 180.0
         
         let R: Float = Float(self.radius)
         let newX = R * cos(angleRadiant) + Float(self.frame.width / 2)
@@ -188,7 +188,7 @@ import UIKit
     
     func angleBetweenCenterAndPoint(_ point: CGPoint) -> Float {
         let angle = atan2((point.y - self.frame.height / 2), (point.x - self.frame.width / 2))
-        return Float(angle * 180.0/CGFloat(M_PI))
+        return Float(angle * 180.0/CGFloat.pi)
     }
     
     func progressForAngle(_ angle: Float) -> Float {
