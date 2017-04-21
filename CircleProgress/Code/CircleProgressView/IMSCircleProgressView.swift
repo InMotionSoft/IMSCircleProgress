@@ -14,8 +14,9 @@ extension FloatingPoint {
 }
 
 public extension CABasicAnimation {
-    static func createMoveAnimation(toValue value: CGFloat, withDuration duration: TimeInterval) -> CABasicAnimation {
+    static func createMoveAnimation(fromValue: CGFloat, toValue value: CGFloat, withDuration duration: TimeInterval) -> CABasicAnimation {
         let endAnimation = CABasicAnimation(keyPath: "strokeEnd")
+        endAnimation.fromValue = fromValue
         endAnimation.toValue = value
         endAnimation.isRemovedOnCompletion = false
         endAnimation.fillMode = kCAFillModeForwards
@@ -62,9 +63,9 @@ open class IMSCircleProgressView: UIView {
                 let progressDif = abs(oldValue - progress)
                 if progressDif > 0 {
                     let time: TimeInterval = TimeInterval(progressDuration * progressDif)
-                    let endAnimation = CABasicAnimation.createMoveAnimation(toValue: finalProgress, withDuration: time)
+                    let endAnimation = CABasicAnimation.createMoveAnimation(fromValue: oldValue, toValue: finalProgress, withDuration: time)
                     
-                    self.progressLayer.add(endAnimation, forKey: nil)
+                    self.progressLayer.add(endAnimation, forKey: "progress_layer_stroke")
                 }
             } else {
                 self.progressLayer.strokeEnd = finalProgress

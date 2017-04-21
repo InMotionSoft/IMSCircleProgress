@@ -27,6 +27,10 @@ import UIKit
     var strokeStart: CGFloat = 0.0
     override open var progress: CGFloat {
         willSet {
+            if self.noNeedChangeProgress {
+                return
+            }
+            
             if progress == 0 {
                 let startAngle = (self.progressClockwiseDirection) ? self.startAngle : self.endAngle
                 let startPoint = self.pointForAngle(startAngle)
@@ -39,23 +43,30 @@ import UIKit
         }
         
         didSet {
+            if self.noNeedChangeProgress {
+                self.noNeedChangeProgress = false;
+                return
+            }
+            
             self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
         }
     }
     
+    private var noNeedChangeProgress: Bool = false
+    
     open func setProgressAndUpdateButtonPosition(_ progress: CGFloat, animated: Bool) {
         
+        self.noNeedChangeProgress = true
         let finalProgress = self.endlessProgress(progress)
+        
         if animated {
             let progressDif = abs(self.progress - progress)
             
             if progressDif > 0 {
                 let time: TimeInterval = TimeInterval(progressDuration * progressDif)
-                let endAnimation = CABasicAnimation.createMoveAnimation(toValue: finalProgress, withDuration: time)
-                self.progressLayer.add(endAnimation, forKey: nil)
-                
                 self.moveProgressButtonAnimatedToProgress(finalProgress, time: time)
             }
+            self.progress = finalProgress
             
         } else {
             self.progress = finalProgress
@@ -67,11 +78,13 @@ import UIKit
     private func moveProgressButtonAnimatedToProgress(_ progress: CGFloat, time: TimeInterval) {
         
         let buttonAnimation = CAKeyframeAnimation(keyPath: "position")
-        let startAngle = self.angleBetweenCenterAndPoint(self.progressButton.center)
+        let startAngle = self.angleForProgress(self.progress)
         let endAngle = self.angleForProgress(progress)
         
+        let moveDirection = (self.progress < progress) ? self.progressClockwiseDirection : !self.progressClockwiseDirection
+        
         let center = CGPoint.init(x: self.frame.size.width / 2, y: self.frame.size.height / 2)
-        let path = UIBezierPath.init(arcCenter: center, radius: self.radius, startAngle: CGFloat(startAngle.degreesToRadians), endAngle: CGFloat(endAngle.degreesToRadians), clockwise: self.progressClockwiseDirection)
+        let path = UIBezierPath.init(arcCenter: center, radius: self.radius, startAngle: CGFloat(startAngle.degreesToRadians), endAngle: CGFloat(endAngle.degreesToRadians), clockwise: moveDirection)
         
         buttonAnimation.path                  = path.cgPath
         buttonAnimation.fillMode              = kCAFillModeBoth

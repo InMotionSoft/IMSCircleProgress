@@ -66,7 +66,7 @@ import UIKit
                 let progressDif = abs(oldValue - secondProgress)
                 if progressDif > 0 {
                     let time: TimeInterval = TimeInterval(progressDuration * progressDif)
-                    let endAnimation = CABasicAnimation.createMoveAnimation(toValue: finalProgress, withDuration: time)
+                    let endAnimation = CABasicAnimation.createMoveAnimation(fromValue: oldValue, toValue: finalProgress, withDuration: time)
                     
                     self.secondProgressLayer.add(endAnimation, forKey: nil)
                 }

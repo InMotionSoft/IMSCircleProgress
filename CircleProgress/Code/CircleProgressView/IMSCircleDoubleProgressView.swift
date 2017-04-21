@@ -45,7 +45,7 @@ import UIKit
             }
             self.delegate?.circleProgressView(self, didChangeProgress: self.progress)
         }
-
+        
     }
     
     fileprivate var currentProgressLayer: CAShapeLayer! {
@@ -74,5 +74,5 @@ import UIKit
         self.firstProgressLayer.removeAllAnimations()
         self.secondProgressLayer.removeAllAnimations()
     }
-
+    
 }
