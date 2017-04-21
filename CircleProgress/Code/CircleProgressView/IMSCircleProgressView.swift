@@ -8,6 +8,11 @@
 
 import UIKit
 
+extension FloatingPoint {
+    var degreesToRadians: Self { return self * .pi / 180 }
+    var radiansToDegrees: Self { return self * 180 / .pi }
+}
+
 public extension CABasicAnimation {
     static func createMoveAnimation(toValue value: CGFloat, withDuration duration: TimeInterval) -> CABasicAnimation {
         let endAnimation = CABasicAnimation(keyPath: "strokeEnd")
@@ -15,10 +20,10 @@ public extension CABasicAnimation {
         endAnimation.isRemovedOnCompletion = false
         endAnimation.fillMode = kCAFillModeForwards
         endAnimation.duration = duration
+        endAnimation.timingFunction = CAMediaTimingFunction(name:kCAMediaTimingFunctionLinear)
         return endAnimation
     }
 }
-
 
 public enum IMSCircleProgressPosition: Float {
     case top = -90.0
@@ -44,7 +49,7 @@ open class IMSCircleProgressView: UIView {
     open var delegate: IMSCircleProgressViewDelegate?
     
     open var progressClockwiseDirection: Bool = true {
-        didSet {            
+        didSet {
             self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
         }
     }
@@ -53,7 +58,7 @@ open class IMSCircleProgressView: UIView {
         didSet {
             let finalProgress = self.endlessProgress(progress)
             if progressDuration > 0 && self.animatedProgress {
-            
+                
                 let progressDif = abs(oldValue - progress)
                 if progressDif > 0 {
                     let time: TimeInterval = TimeInterval(progressDuration * progressDif)
@@ -181,10 +186,10 @@ open class IMSCircleProgressView: UIView {
     func pathForRadius(_ radius: CGFloat) -> UIBezierPath {
         
         let centerPoint = CGPoint (x: self.frame.width / 2, y: self.frame.width / 2);
-        let start = startAngle * Float(M_PI) / 180.0
-        let end = endAngle * Float(M_PI) / 180.0
+        let start = startAngle * Float.pi / 180.0
+        let end = endAngle * Float.pi / 180.0
         var path = UIBezierPath(arcCenter: centerPoint, radius: radius, startAngle: CGFloat(start), endAngle: CGFloat(end), clockwise: true)
-
+        
         if self.progressClockwiseDirection == false {
             path = path.reversing()
         }

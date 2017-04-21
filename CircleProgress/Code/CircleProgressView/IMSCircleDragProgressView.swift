@@ -43,10 +43,43 @@ import UIKit
         }
     }
     
-    open func setProgressAndUpdateButtonPosition(_ progress: CGFloat) {
-        self.progress = max(min(1, progress), 0)
-        let angle: Float = self.angleForProgress(self.progress)
-        self.progressButton.center = self.pointForAngle(angle)
+    open func setProgressAndUpdateButtonPosition(_ progress: CGFloat, animated: Bool) {
+        
+        let finalProgress = self.endlessProgress(progress)
+        if animated {
+            let progressDif = abs(self.progress - progress)
+            
+            if progressDif > 0 {
+                let time: TimeInterval = TimeInterval(progressDuration * progressDif)
+                let endAnimation = CABasicAnimation.createMoveAnimation(toValue: finalProgress, withDuration: time)
+                self.progressLayer.add(endAnimation, forKey: nil)
+                
+                self.moveProgressButtonAnimatedToProgress(finalProgress, time: time)
+            }
+            
+        } else {
+            self.progress = finalProgress
+            let angle: Float = self.angleForProgress(self.progress)
+            self.progressButton.center = self.pointForAngle(angle)
+        }
+    }
+    
+    private func moveProgressButtonAnimatedToProgress(_ progress: CGFloat, time: TimeInterval) {
+        
+        let buttonAnimation = CAKeyframeAnimation(keyPath: "position")
+        let startAngle = self.angleBetweenCenterAndPoint(self.progressButton.center)
+        let endAngle = self.angleForProgress(progress)
+        
+        let center = CGPoint.init(x: self.frame.size.width / 2, y: self.frame.size.height / 2)
+        let path = UIBezierPath.init(arcCenter: center, radius: self.radius, startAngle: CGFloat(startAngle.degreesToRadians), endAngle: CGFloat(endAngle.degreesToRadians), clockwise: self.progressClockwiseDirection)
+        
+        buttonAnimation.path                  = path.cgPath
+        buttonAnimation.fillMode              = kCAFillModeBoth
+        buttonAnimation.isRemovedOnCompletion = false
+        buttonAnimation.duration              = time
+        buttonAnimation.calculationMode       = kCAAnimationPaced
+        buttonAnimation.timingFunction        = CAMediaTimingFunction(name:kCAMediaTimingFunctionLinear)
+        self.progressButton.layer.add(buttonAnimation, forKey:nil)
     }
     
     override open var radius: CGFloat {
@@ -177,7 +210,7 @@ import UIKit
     
     //    MARK: angle & point calculation
     func pointForAngle(_ angle: Float) -> CGPoint {
-        let angleRadiant = angle * Float.pi / 180.0
+        let angleRadiant = angle * Float(M_PI) / 180.0
         
         let R: Float = Float(self.radius)
         let newX = R * cos(angleRadiant) + Float(self.frame.width / 2)
@@ -188,7 +221,7 @@ import UIKit
     
     func angleBetweenCenterAndPoint(_ point: CGPoint) -> Float {
         let angle = atan2((point.y - self.frame.height / 2), (point.x - self.frame.width / 2))
-        return Float(angle * 180.0/CGFloat.pi)
+        return Float(angle * 180.0/CGFloat(M_PI))
     }
     
     func progressForAngle(_ angle: Float) -> Float {
