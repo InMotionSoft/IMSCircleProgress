@@ -19,9 +19,9 @@ public extension CABasicAnimation {
         endAnimation.fromValue = fromValue
         endAnimation.toValue = value
         endAnimation.isRemovedOnCompletion = false
-        endAnimation.fillMode = kCAFillModeForwards
+        endAnimation.fillMode = CAMediaTimingFillMode.forwards
         endAnimation.duration = duration
-        endAnimation.timingFunction = CAMediaTimingFunction(name:kCAMediaTimingFunctionLinear)
+        endAnimation.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.linear)
         return endAnimation
     }
 }
@@ -174,9 +174,9 @@ open class IMSCircleProgressView: UIView {
         progressCircle?.strokeEnd = self.progress
         
         if self.progressStrokeWithRoundCorner {
-            progressCircle?.lineCap = kCALineCapRound
+            progressCircle?.lineCap = CAShapeLayerLineCap.round
         } else {
-            progressCircle?.lineCap = kCALineCapButt
+            progressCircle?.lineCap = CAShapeLayerLineCap.butt
         }
         
         self.backgroundLayer.path = progressCircle?.path

@@ -87,11 +87,11 @@ import UIKit
         let path = UIBezierPath.init(arcCenter: center, radius: self.radius, startAngle: CGFloat(startAngle.degreesToRadians), endAngle: CGFloat(endAngle.degreesToRadians), clockwise: moveDirection)
         
         buttonAnimation.path                  = path.cgPath
-        buttonAnimation.fillMode              = kCAFillModeBoth
+        buttonAnimation.fillMode              = CAMediaTimingFillMode.both
         buttonAnimation.isRemovedOnCompletion = false
         buttonAnimation.duration              = time
-        buttonAnimation.calculationMode       = kCAAnimationPaced
-        buttonAnimation.timingFunction        = CAMediaTimingFunction(name:kCAMediaTimingFunctionLinear)
+        buttonAnimation.calculationMode       = CAAnimationCalculationMode.paced
+        buttonAnimation.timingFunction        = CAMediaTimingFunction(name:CAMediaTimingFunctionName.linear)
         self.progressButton.layer.add(buttonAnimation, forKey:nil)
     }
     
@@ -143,8 +143,8 @@ import UIKit
     func setupProgressButton() {
         progressButton = UIButton(frame: CGRect(x: self.frame.width/2-progressButtonSize/2, y: radius, width: progressButtonSize, height: progressButtonSize))
         progressButton.backgroundColor = UIColor.white
-        progressButton.addTarget(self, action: #selector(IMSCircleDragProgressView.buttonDrag(_:withEvent:)), for: UIControlEvents.touchDragInside)
-        progressButton.addTarget(self, action: #selector(IMSCircleDragProgressView.buttonDrag(_:withEvent:)), for: UIControlEvents.touchDragOutside)
+        progressButton.addTarget(self, action: #selector(IMSCircleDragProgressView.buttonDrag(_:withEvent:)), for: UIControl.Event.touchDragInside)
+        progressButton.addTarget(self, action: #selector(IMSCircleDragProgressView.buttonDrag(_:withEvent:)), for: UIControl.Event.touchDragOutside)
         
         self.addSubview(progressButton)
     }
@@ -162,7 +162,7 @@ import UIKit
     
     
     //    MARK: Events
-    func buttonDrag(_ button: UIButton, withEvent event:UIEvent) {
+    @objc func buttonDrag(_ button: UIButton, withEvent event:UIEvent) {
         
         guard let touch: UITouch = event.allTouches?.first else {
             return
@@ -223,7 +223,7 @@ import UIKit
     
     //    MARK: angle & point calculation
     func pointForAngle(_ angle: Float) -> CGPoint {
-        let angleRadiant = angle * Float(M_PI) / 180.0
+        let angleRadiant = angle * Float.pi / 180.0
         
         let R: Float = Float(self.radius)
         let newX = R * cos(angleRadiant) + Float(self.frame.width / 2)
@@ -234,7 +234,7 @@ import UIKit
     
     func angleBetweenCenterAndPoint(_ point: CGPoint) -> Float {
         let angle = atan2((point.y - self.frame.height / 2), (point.x - self.frame.width / 2))
-        return Float(angle * 180.0/CGFloat(M_PI))
+        return Float(angle * 180.0/CGFloat.pi)
     }
     
     func progressForAngle(_ angle: Float) -> Float {

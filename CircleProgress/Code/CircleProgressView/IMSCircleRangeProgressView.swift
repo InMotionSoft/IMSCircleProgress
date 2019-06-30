@@ -98,7 +98,7 @@ open class IMSCircleRangeProgressView: IMSCircleDragProgressView {
         self.updateProgressLayer()
     }
     
-    override func buttonDrag(_ button: UIButton, withEvent event:UIEvent) {
+    @objc override func buttonDrag(_ button: UIButton, withEvent event:UIEvent) {
         
         var angle: Float = self.angleBetweenCenterAndPoint(button.center)
         guard let touch: UITouch = event.allTouches?.first else {
@@ -122,8 +122,8 @@ open class IMSCircleRangeProgressView: IMSCircleDragProgressView {
         
         rangeButton1 = UIButton(frame: CGRect(x: self.frame.width / 2 - self.rangeButton1Size / 2, y: self.radius,
                                               width: self.rangeButton1Size, height: self.rangeButton1Size))
-        rangeButton1.addTarget(self, action: "buttonDrag:withEvent:", for: UIControlEvents.touchDragInside)
-        rangeButton1.addTarget(self, action: "buttonDrag:withEvent:", for: UIControlEvents.touchDragOutside)
+        rangeButton1.addTarget(self, action: #selector(buttonDrag(_:withEvent:)), for: UIControl.Event.touchDragInside)
+        rangeButton1.addTarget(self, action: #selector(buttonDrag(_:withEvent:)), for: UIControl.Event.touchDragOutside)
         rangeButton1.backgroundColor = UIColor.white
         
         self.insertSubview(rangeButton1, belowSubview: self.rangeButton2)
