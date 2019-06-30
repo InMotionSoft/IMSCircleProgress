@@ -38,7 +38,7 @@ public enum IMSCircleProgressPosition: Float {
 }
 
 
-open class IMSCircleProgressView: UIView {
+@objc open class IMSCircleProgressView: UIView {
     
     let kDefaultInterval = 0.33
     let kMaxAngle: Float = 180.0;
@@ -46,16 +46,16 @@ open class IMSCircleProgressView: UIView {
     var progressLayer: CAShapeLayer!
     var backgroundLayer: CAShapeLayer!
     
-    open var animatedProgress: Bool = true
-    open var delegate: IMSCircleProgressViewDelegate?
+    @objc open var animatedProgress: Bool = true
+    @objc open var delegate: IMSCircleProgressViewDelegate?
     
-    open var progressClockwiseDirection: Bool = true {
+    @objc open var progressClockwiseDirection: Bool = true {
         didSet {
             self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
         }
     }
     
-    open var progress: CGFloat = 0.0 {
+    @objc open var progress: CGFloat = 0.0 {
         didSet {
             let finalProgress = self.endlessProgress(progress)
             if progressDuration > 0 && self.animatedProgress {
@@ -75,46 +75,46 @@ open class IMSCircleProgressView: UIView {
         }
     }
     
-    open var progressStrokeColor = UIColor.white {
+    @objc open var progressStrokeColor = UIColor.white {
         didSet {
             self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
         }
     }
     
-    open var progressStrokeWithRoundCorner = false {
+    @objc open var progressStrokeWithRoundCorner = false {
         didSet {
             self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
         }
     }
     
-    open var progressBackgroundColor = UIColor.gray {
+    @objc open var progressBackgroundColor = UIColor.gray {
         didSet {
             self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
         }
     }
     
-    open var progressDuration : CGFloat = 3;
+    @objc open var progressDuration : CGFloat = 3;
     
-    open var radius: CGFloat = 0.0 {
+    @objc open var radius: CGFloat = 0.0 {
         didSet {
             self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
         }
     }
     
-    open var lineWidth: CGFloat = 22.0 {
+    @objc open var lineWidth: CGFloat = 22.0 {
         didSet {
             self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
         }
     }
     
-    open var startAngle: Float = IMSCircleProgressPosition.top.rawValue {
+    @objc open var startAngle: Float = IMSCircleProgressPosition.top.rawValue {
         didSet {
             self.endAngle = kFullCircleAngle + self.startAngle
             self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
         }
     }
     
-    open var endAngle: Float = 0 {
+    @objc open var endAngle: Float = 0 {
         didSet {
             self.setupCircleViewLineWidth(self.lineWidth, radius: self.radius)
         }
@@ -139,7 +139,7 @@ open class IMSCircleProgressView: UIView {
         self.init(frame: frame, radius: radius, width: width, startAngle: IMSCircleProgressPosition.top.rawValue)
     }
     
-    init (frame:CGRect, radius:CGFloat, width: CGFloat, startAngle: Float) {
+    init(frame:CGRect, radius:CGFloat, width: CGFloat, startAngle: Float) {
         self.startAngle = startAngle
         self.endAngle = kFullCircleAngle + self.startAngle
         self.lineWidth = width

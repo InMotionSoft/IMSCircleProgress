@@ -12,10 +12,10 @@ import UIKit
 
 @objc open class IMSCircleDragProgressView: IMSCircleProgressView {
     
-    open var shouldCrossStartPosition = false
+    @objc open var shouldCrossStartPosition = false
     
     fileprivate(set) open var progressButton: UIButton!
-    open var progressButtonSize: CGFloat = 44.0 {
+    @objc open var progressButtonSize: CGFloat = 44.0 {
         didSet {
             var buttonFame = self.progressButton.frame
             buttonFame.size = CGSize(width: progressButtonSize, height: progressButtonSize)
