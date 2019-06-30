@@ -2,7 +2,7 @@
 //  DRCircleProgressView.swift
 //  CircleProgress
 //
-//  Created by Denis Romashov on 23.09.15.
+//  Created by Max Kuznetsov on 23.09.15.
 //  Copyright © 2015 InMotion Soft. All rights reserved.
 //
 
